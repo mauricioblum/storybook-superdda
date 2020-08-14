@@ -53,5 +53,19 @@ Default.args = {
       autoPayment: false,
       cardHolderName: 'Roberto de Oliveira Santos',
       paymentHistory,
+      billDetails: {
+        billDate: '2020-06',
+        dueDate: new Date('2020-06-19T23:00:00.000Z'),
+        emissionDate: new Date('2020-06-06T23:00:00.000Z'),
+        interestInstallmentFine: 22,
+        interestInstallmentRate: 12,
+        interestInstallmentRateCET: 15,
+        interestRate: 14,
+        interestRateCET: 385.17,
+        minimumPaymentValue: 400,
+        totalLimitValue: 1200,
+        totalWithdrawLimitValue: 600,
+        value: 1230.89
+      },
     },
 };

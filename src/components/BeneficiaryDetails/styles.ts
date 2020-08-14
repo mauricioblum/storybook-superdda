@@ -1,13 +1,13 @@
 import styled from 'styled-components/native';
 
 export const WrapperView = styled.View`
-  flex: 1;
-  position: relative;
   width: 100%;
+  position: relative;
 `;
 
-export const Container = styled.View`
-  flex: 1;
+export const Container = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})`
   width: 100%;
   background-color: #fff;
 `;

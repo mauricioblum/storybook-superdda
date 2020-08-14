@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { Switch } from 'react-native-switch';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import NumberFormat from 'react-number-format';
 import {
   Container,
