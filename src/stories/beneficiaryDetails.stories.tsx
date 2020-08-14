@@ -1,5 +1,4 @@
 import * as React from 'react';
-import AppView from './AppView';
 import { Meta, Story } from '@storybook/react/types-6-0';
 
 import {
@@ -33,7 +32,6 @@ const paymentHistory = [
 export default {
   title: 'SuperDDA/BeneficiaryDetails',
   component: BeneficiaryDetails,
-  decorators: [(Story) => <AppView><Story/></AppView>],
 } as Meta;
 
 const Template: Story<BeneficiaryDetailsProps> = (args) => <BeneficiaryDetails {...args} />;
