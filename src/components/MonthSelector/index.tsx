@@ -11,7 +11,7 @@ import { getMonth } from 'date-fns';
 
 import { Container, MonthButton, MonthText } from './styles';
 
-interface MonthSelectorProps {
+export interface MonthSelectorProps {
   currentMonth: number;
   onSelectMonth?(month: number): void;
   monthScrollCenterOffset?: number;

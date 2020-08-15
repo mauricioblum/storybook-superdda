@@ -9,7 +9,7 @@ import {
   TotalPaymentTextValue,
 } from './styles';
 
-interface CardListProps {
+export interface CardListProps {
   cards: CardListItemProps[];
   featured?: boolean;
   featuredBackgroundColor?: string;
