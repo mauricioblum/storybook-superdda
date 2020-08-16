@@ -5,6 +5,10 @@ export function formatDate(date: Date | undefined): string | null {
   return date ? format(date, 'dd MMM', { locale: ptBR }).toUpperCase() : null;
 }
 
+export function formatFullDate(date: Date | undefined): string | null {
+  return date ? format(date, 'dd MMM yyyy', { locale: ptBR }).toUpperCase() : null;
+}
+
 export function formatStringDate(
   date: string | undefined,
   formatStr = 'long',
@@ -19,7 +23,7 @@ export function formatStringDate(
 
     const formatTemplate = formatStr === 'short' ? 'MMM yyyy' : 'MMMM yyyy';
 
-    return format(formattedDate, formatTemplate, { locale: ptBR });
+    return format(formattedDate, formatTemplate, { locale: ptBR }).toUpperCase();
   }
   return '';
 }
