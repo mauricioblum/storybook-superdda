@@ -8,3 +8,4 @@ export * from './BeneficiaryDetails';
 export * from './FilterSearch';
 export * from './Tabs';
 export * from './Button';
+export * from './DetailsModal';

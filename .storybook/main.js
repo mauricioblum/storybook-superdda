@@ -15,7 +15,7 @@ module.exports = {
     config.module.rules.push({
       test: /\.(js|jsx)$/,
       loader: require.resolve('babel-loader'),
-      include: path.resolve(__dirname, '../', 'node_modules/react-native-switch/'),
+      include: [path.resolve(__dirname, '../', 'node_modules/react-native-switch/'), path.resolve(__dirname, '../', 'node_modules/react-native-chart-kit/')],
       options: {
         presets: [['react-app', { flow: true, typescript: false }]],
       },

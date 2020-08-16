@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React from "react";
+import { View } from "react-native";
 
 export interface IconProps {
   color?: string;
@@ -11,7 +11,7 @@ const iconStyle = {
 };
 
 export const MailIcon: React.FC<IconProps> = ({
-  color = '#2d2d2d',
+  color = "#2d2d2d",
   size = 20,
 }) => {
   return (
@@ -37,7 +37,7 @@ export const MailIcon: React.FC<IconProps> = ({
 };
 
 export const UserCheck: React.FC<IconProps> = ({
-  color = '#009245',
+  color = "#009245",
   size = 16,
 }) => {
   return (
@@ -63,7 +63,7 @@ export const UserCheck: React.FC<IconProps> = ({
   );
 };
 
-export const UserX: React.FC<IconProps> = ({ color = '#000', size = 16 }) => {
+export const UserX: React.FC<IconProps> = ({ color = "#000", size = 16 }) => {
   return (
     <View style={iconStyle}>
       <svg
@@ -89,7 +89,7 @@ export const UserX: React.FC<IconProps> = ({ color = '#000', size = 16 }) => {
 };
 
 export const LightBulb: React.FC<IconProps> = ({
-  color = '#999999',
+  color = "#999999",
   size = 22,
 }) => {
   return (
@@ -111,7 +111,7 @@ export const LightBulb: React.FC<IconProps> = ({
 };
 
 export const ChevronLeft: React.FC<IconProps> = ({
-  color = '#707070',
+  color = "#707070",
   size = 40,
 }) => {
   return (
@@ -134,7 +134,7 @@ export const ChevronLeft: React.FC<IconProps> = ({
 };
 
 export const MoreVertical: React.FC<IconProps> = ({
-  color = '#707070',
+  color = "#707070",
   size = 40,
 }) => {
   return (
@@ -159,7 +159,7 @@ export const MoreVertical: React.FC<IconProps> = ({
 };
 
 export const IuPayIcon: React.FC<IconProps & { marginRight?: number }> = ({
-  color = '#000',
+  color = "#000",
   size = 24,
   marginRight = 10,
 }) => {
@@ -182,7 +182,7 @@ export const IuPayIcon: React.FC<IconProps & { marginRight?: number }> = ({
 };
 
 export const CloseCircle: React.FC<IconProps> = ({
-  color = '#727272',
+  color = "#727272",
   size = 40,
 }) => {
   return (
@@ -207,9 +207,9 @@ export const CloseCircle: React.FC<IconProps> = ({
 };
 
 export const SearchIcon: React.FC<IconProps & { margin?: string }> = ({
-  color = '#727272',
+  color = "#727272",
   size = 16,
-  margin = '0px 10px 0px 10px',
+  margin = "0px 10px 0px 10px",
 }) => {
   return (
     <View style={{ margin }}>
@@ -228,6 +228,32 @@ export const SearchIcon: React.FC<IconProps & { margin?: string }> = ({
       >
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </View>
+  );
+};
+
+export const CopyIcon: React.FC<IconProps> = ({
+  color = "#727272",
+  size = 16,
+}) => {
+  return (
+    <View style={{ marginLeft: 5}}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        color={color}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        className="feather feather-copy"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
       </svg>
     </View>
   );

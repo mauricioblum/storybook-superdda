@@ -100,12 +100,19 @@ export const PaymentHistoryItem = styled.View`
   justify-content: space-between;
 `;
 
+export const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
 export const BarCodeTitle = styled.Text`
   font-family: 'NunitoSans-SemiBold';
   font-size: 15px;
   color: #727272;
   line-height: 22px;
 `;
+
+export const CopyButton = styled.TouchableOpacity``;
 
 export const BarCodeValue = styled(BarCodeTitle)`
   font-size: 13px;
@@ -158,5 +165,39 @@ export const PaymentHistoryLinkText = styled.Text`
   text-decoration: underline;
   text-decoration-color: #727272;
   color: #727272;
+`;
+
+export const ChartView = styled.View`
+  margin: 16px 0;
+`;
+
+export const ChartLegend = styled.View`
+  width: 100%;
+  height: 40px;  
+  background: #f78c49;
+  padding-left: 25px;
+  padding-top: 19px;
+`;
+
+export const ChartLegendText = styled.Text`
+  font-family: 'NunitoSans-Regular';
+  font-size: 14px;
+  color: #ffffff;
+`;
+
+export const ChartLegendBottom = styled.View`
+  height: 35px;
+  background-color: #fddbc6;
+  padding: 8px 26px;
+  padding-left: 16px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ChartLegendBottomText = styled.Text`
+  font-family: 'NunitoSans-Bold';
+  font-size: 14px;
+  color: #f78c49;
 `;
 

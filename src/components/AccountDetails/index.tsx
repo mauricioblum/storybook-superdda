@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useCallback, useMemo } from "react";
+import { Dimensions } from 'react-native';
 import NumberFormat from "react-number-format";
+import { LineChart } from "react-native-chart-kit";
+import { CopyIcon } from '../Icons'
 import {
   WrapperView,
   Container,
@@ -15,7 +18,9 @@ import {
   ValueTitle,
   ValueTitleBold,
   PaymentHistoryItem,
+  Row,
   BarCodeTitle,
+  CopyButton,
   BarCodeValue,
   PdfButton,
   PdfButtonText,
@@ -26,6 +31,11 @@ import {
   CustomButtonText,
   PaymentHistoryLink,
   PaymentHistoryLinkText,
+  ChartView,
+  ChartLegend,
+  ChartLegendText,
+  ChartLegendBottom,
+  ChartLegendBottomText,
 } from "./styles";
 import {
   ChevronLeft,
@@ -34,11 +44,8 @@ import {
   UserCheck,
   UserX,
 } from "../Icons";
-// import { BeneficiaryDetailsModal } from '../BeneficiaryDetailsModal';
-import {
-  formatStringDate,
-  formatFullDate,
-} from "../utils/formatDate";
+import { DetailsModal } from "../DetailsModal";
+import { formatStringDate, formatFullDate } from "../utils/formatDate";
 
 export interface PaymentHistoryItem {
   date: string;
@@ -75,29 +82,87 @@ export interface AccountDetailsInfoProps {
   billDetails: BillDetails;
 }
 
+export interface ChartData {
+  label: string;
+  value: number;
+}
+
 export interface AccountDetailsProps {
-  /** Beneficiary info data to be displayed */
+  /** Data to be displayed on screen */
   data: AccountDetailsInfoProps;
-  /** Payment history table months reversed or not. */
-  historyReverse?: boolean;
+  /** Data to be displayed on screen */
+  chartData: ChartData[];
+  /** Chart legend of the chart */
+  chartLegend?: string;
+  /** Chart data text to be displayed below the chart */
+  chartDataText?: string;
+  /** Chart data value to be displayed below the chart */
+  chartDataValue?: string | number;
+  /** Chart width. Leave undefined if you want responsive width */
+  chartWidth?: number;
   onClickBack?: () => void;
   onClickOptions?: () => void;
-  onClickViewCard?: () => void;
   onClickViewAccountDetails?: () => void;
   onClickViewPDF?: () => void;
   onClickRejectAccount?: () => void;
+  /** Callback when copy barcode icon clicked, you have to implement clipboard capabilities in your
+   * on project, you can use this: https://github.com/react-native-community/clipboard
+   */
+  onClickCopyBarcode?: (barcode: string) => void;
 }
+
+const chartConfig = {
+  backgroundGradientFrom: "#f78c49",
+  backgroundGradientTo: "#f78c49",
+  fillShadowGradientOpacity: 0,
+  color: () => "white",
+  strokeWidth: 2,
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false,
+  propsForLabels: { fontFamily: "NunitoSans-Regular", fontSize: 14 },
+  propsForDots: {
+    r: "3.5",
+    strokeWidth: "2",
+    stroke: "#fff",
+    fill: "#f78c49",
+  },
+};
+
+const screenWidth = Dimensions.get("window").width;
 
 export const AccountDetails: React.FC<AccountDetailsProps> = ({
   onClickBack,
   onClickOptions,
-  onClickViewCard,
   onClickViewPDF,
   onClickViewAccountDetails,
   onClickRejectAccount,
+  onClickCopyBarcode,
+  chartData,
   data,
-  historyReverse,
+  chartLegend,
+  chartDataText,
+  chartDataValue,
+  chartWidth,
 }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const formattedChartData = useMemo(() => {
+    return {
+      labels: chartData.map(data => data.label),
+      datasets: [
+        {
+          data: chartData.map(data => data.value),
+          strokeWidth: 2,
+        }
+      ],
+    };
+  }, [chartData]);
+
+  const handleViewAccountDetails = useCallback(() => {
+    setModalOpen(!modalOpen);
+    onClickViewAccountDetails && onClickViewAccountDetails();
+  }, [modalOpen, onClickViewAccountDetails]);
+
   return (
     <WrapperView>
       <Container>
@@ -129,10 +194,12 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
 
         <BlockView>
           <InfoBlock>
-            <ValueTitleBold>{formatStringDate(data.billDetails.billDate, 'short')}</ValueTitleBold>
+            <ValueTitleBold>
+              {formatStringDate(data.billDetails.billDate, "short")}
+            </ValueTitleBold>
           </InfoBlock>
           <InfoBlock>
-            <NumberFormat 
+            <NumberFormat
               value={data.billDetails.value}
               displayType="text"
               thousandSeparator="."
@@ -171,14 +238,38 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         </BlockView>
 
         <BlockView>
-            <BarCodeTitle>
-              Código de Barras: 
-            </BarCodeTitle>
-            <BarCodeValue>
-            {data.billDetails.barCode}
-            </BarCodeValue>
+          <Row>
+            <BarCodeTitle>Código de Barras:</BarCodeTitle>
+            <CopyButton onPress={() => onClickCopyBarcode && onClickCopyBarcode(data.billDetails.barCode)}>
+              <CopyIcon />
+            </CopyButton>
+          </Row>
+          <BarCodeValue>{data.billDetails.barCode}</BarCodeValue>
         </BlockView>
 
+        <ChartView>
+          <ChartLegend>
+            <ChartLegendText>{chartLegend}</ChartLegendText>
+          </ChartLegend>
+          <LineChart
+            data={formattedChartData}
+            bezier
+            width={chartWidth || screenWidth}
+            height={170}
+            chartConfig={chartConfig}
+            withVerticalLines={false}
+            withHorizontalLines={false}
+            withHorizontalLabels={false}
+            withShadow={false}
+            xLabelsOffset={-20}
+            fromZero
+            style={{ paddingRight: -30 }}
+          />
+          <ChartLegendBottom>
+            <ChartLegendBottomText>{chartDataText}</ChartLegendBottomText>
+              <ChartLegendBottomText>{chartDataValue}</ChartLegendBottomText>
+          </ChartLegendBottom>
+        </ChartView>
         <BlockView>
           <PdfButton onPress={onClickViewPDF}>
             <PdfButtonText>PDF da conta</PdfButtonText>
@@ -186,27 +277,31 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         </BlockView>
 
         <BlockView>
-          <AccountTypeText>Conta em Débito automático no Banco Itaú</AccountTypeText>
+          <AccountTypeText>
+            Conta em Débito automático no Banco Itaú
+          </AccountTypeText>
         </BlockView>
 
         <BlockView>
-        <ButtonsWrapper>
-          <CustomButton onPress={onClickRejectAccount}>
-            <CustomButtonText>Recusar a conta</CustomButtonText>
-          </CustomButton>
+          <ButtonsWrapper>
+            <CustomButton onPress={onClickRejectAccount}>
+              <CustomButtonText>Recusar a conta</CustomButtonText>
+            </CustomButton>
 
-          <CustomButtonRight onPress={onClickViewAccountDetails}>
-            <CustomButtonText>Ver detalhes da conta</CustomButtonText>
-          </CustomButtonRight>
-        </ButtonsWrapper>
+            <CustomButtonRight onPress={handleViewAccountDetails}>
+              <CustomButtonText>Ver detalhes da conta</CustomButtonText>
+            </CustomButtonRight>
+          </ButtonsWrapper>
 
-        <PaymentHistoryLink>
-          <PaymentHistoryLinkText>HISTÓRICO DE PAGAMENTOS</PaymentHistoryLinkText>
-        </PaymentHistoryLink>
+          <PaymentHistoryLink>
+            <PaymentHistoryLinkText>
+              HISTÓRICO DE PAGAMENTOS
+            </PaymentHistoryLinkText>
+          </PaymentHistoryLink>
         </BlockView>
       </Container>
-      {/* {data.billDetails && (
-        <AccountDetailsModal
+      {data.billDetails && (
+        <DetailsModal
           isOpen={modalOpen}
           title="Detalhes da conta"
           renderMobile={false}
@@ -230,7 +325,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
           }
           interestInstallmentFine={data.billDetails.interestInstallmentFine}
         />
-      )} */}
+      )}
     </WrapperView>
   );
 };

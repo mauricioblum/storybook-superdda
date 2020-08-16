@@ -38,7 +38,40 @@ const Template: Story<AccountDetailsProps> = (args) => <AccountDetails {...args}
 
 export const Default = Template.bind({});
 Default.args = {
-  historyReverse: true,
+    chartDataText: 'JUNHO',
+    chartDataValue: 'R$ 1.983,36',
+    chartLegend: 'Resumo das Faturas Anteriores',
+    chartWidth: 375,
+    chartData: [
+      {
+        label: 'Dez',
+        value: 1000,
+      },
+      {
+        label: 'Jan',
+        value: 1200,
+      },
+      {
+        label: 'Fev',
+        value: 950,
+      },
+      {
+        label: 'Mar',
+        value: 1050,
+      },
+      {
+        label: 'Abr',
+        value: 800,
+      },
+      {
+        label: 'Mai',
+        value: 970,
+      },
+      {
+        label: 'Jun',
+        value: 1300,
+      },
+    ],
     data: {
       companyLogo:
         'https://cdn2.downdetector.com/static/uploads/logo/Nubank_logo.png',

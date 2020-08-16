@@ -38,7 +38,7 @@ import {
   UserCheck,
   UserX,
 } from '../Icons';
-import { BeneficiaryDetailsModal } from '../BeneficiaryDetailsModal';
+import { DetailsModal } from '../DetailsModal';
 import { formatStringDate } from '../utils/formatDate';
 
 export interface PaymentHistoryItem {
@@ -201,7 +201,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         </PaymentHistoryContainer>
       </Container>
       {data.billDetails && (
-        <BeneficiaryDetailsModal
+        <DetailsModal
           isOpen={modalOpen}
           title="Detalhes da conta"
           renderMobile={false}
