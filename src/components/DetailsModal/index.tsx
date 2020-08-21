@@ -1,6 +1,6 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
-import { View, Modal, Alert } from 'react-native';
+import { View, Modal, Platform } from 'react-native';
 import { CloseCircle } from '../Icons';
 import {
   Container,
@@ -40,10 +40,12 @@ export interface DetailsModalProps {
   interestInstallmentFine?: number;
   isOpen: boolean;
   onClickClose: () => void;
-  renderMobile: boolean;
 }
 
-const renderModal = (props: DetailsModalProps): JSX.Element => {
+const renderModal = (
+  props: DetailsModalProps,
+  isMobile?: boolean
+): JSX.Element => {
   const {
     isOpen,
     title,
@@ -68,7 +70,7 @@ const renderModal = (props: DetailsModalProps): JSX.Element => {
   } = props;
 
   return isOpen ? (
-    <ModalWebContainer>
+    <ModalWebContainer mobile={isMobile}>
       <ModalHeader>
         <ModalRow>
           <ModalTitle>{title}</ModalTitle>
@@ -181,28 +183,12 @@ const renderModal = (props: DetailsModalProps): JSX.Element => {
 };
 
 export const DetailsModal: React.FC<DetailsModalProps> = (props) => {
-  const { renderMobile, isOpen, title } = props;
+  const { isOpen } = props;
 
-  return renderMobile ? (
+  return Platform.OS !== 'web' ? (
     <Container>
-      <Modal
-        animationType="slide"
-        visible={isOpen}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}
-      >
-        <Container>
-          <ModalHeader>
-            <ModalTitle>{title}</ModalTitle>
-          </ModalHeader>
-          <ModalContent>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalTitle>{title}</ModalTitle>
-          </ModalContent>
-        </Container>
+      <Modal animationType="slide" visible={isOpen}>
+        {renderModal(props, true)}
       </Modal>
     </Container>
   ) : (

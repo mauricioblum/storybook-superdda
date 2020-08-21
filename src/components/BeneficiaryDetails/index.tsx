@@ -204,7 +204,6 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         <DetailsModal
           isOpen={modalOpen}
           title="Detalhes da conta"
-          renderMobile={false}
           onClickClose={() => setModalOpen(false)}
           companyName={data.companyName}
           cnpj={data.cnpj}

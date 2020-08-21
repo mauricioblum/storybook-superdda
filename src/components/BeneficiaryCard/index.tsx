@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
+
 import { Switch } from 'react-native-switch';
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle, TouchableOpacity } from 'react-native';
 import NumberFormat from 'react-number-format';
 import {
   Container,
@@ -43,6 +44,7 @@ export interface BeneficiaryCardProps {
     circleActiveColor: string;
     circleInActiveColor: string;
   };
+  onClickCard?(): void;
 }
 
 export const BeneficiaryCard: React.FC<BeneficiaryCardProps> = ({
@@ -62,6 +64,7 @@ export const BeneficiaryCard: React.FC<BeneficiaryCardProps> = ({
   type,
   onSwitchChange,
   switchStyle,
+  onClickCard,
 }) => {
   const logoStyle = {
     width: imageWidth || 90,
@@ -74,7 +77,7 @@ export const BeneficiaryCard: React.FC<BeneficiaryCardProps> = ({
       setIsEnabled(value);
       onSwitchChange && onSwitchChange(value);
     },
-    [onSwitchChange],
+    [onSwitchChange]
   );
 
   const cardTypeText = useMemo(() => {
@@ -97,72 +100,74 @@ export const BeneficiaryCard: React.FC<BeneficiaryCardProps> = ({
   }, [isActive]);
 
   return (
-    <Container style={containerStyle}>
-      <Bar color={barColor} />
-      <Content>
-        <CardHeader>
-          <CardTitleContainer>
-            {logo && (
-              <Logo
-                style={logoStyle}
-                source={{ uri: logo }}
-                resizeMode="contain"
-                resizeMethod="resize"
-              />
-            )}
-            <CardTitle color={cardTextColor}>{cardTitle}</CardTitle>
-          </CardTitleContainer>
-          <CardTypeText color={cardTextColor}>{cardTypeText}</CardTypeText>
-        </CardHeader>
-        <CardBody>
-          <BetweenRow>
-            {cnpj && <CnpjText color={cardTextColor}>CNPJ: {cnpj}</CnpjText>}
-          </BetweenRow>
-        </CardBody>
-        <CardFooter>
-          <CardInfoBlock>
-            <CardText style={{ color: cardTextColor }}>{text}</CardText>
-            <NumberFormat
-              value={limitValue}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => (
-                <LimitValueText color={cardTextColor}>
-                  {`${limitValueText}: R$${number}`}
-                </LimitValueText>
+    <TouchableOpacity activeOpacity={0.9} onPress={onClickCard}>
+      <Container style={containerStyle}>
+        <Bar color={barColor} />
+        <Content>
+          <CardHeader>
+            <CardTitleContainer>
+              {logo && (
+                <Logo
+                  style={logoStyle}
+                  source={{ uri: logo }}
+                  resizeMode="contain"
+                  resizeMethod="resize"
+                />
               )}
-              decimalScale={2}
-              fixedDecimalScale
+              <CardTitle color={cardTextColor}>{cardTitle}</CardTitle>
+            </CardTitleContainer>
+            <CardTypeText color={cardTextColor}>{cardTypeText}</CardTypeText>
+          </CardHeader>
+          <CardBody>
+            <BetweenRow>
+              {cnpj && <CnpjText color={cardTextColor}>CNPJ: {cnpj}</CnpjText>}
+            </BetweenRow>
+          </CardBody>
+          <CardFooter>
+            <CardInfoBlock>
+              <CardText style={{ color: cardTextColor }}>{text}</CardText>
+              <NumberFormat
+                value={limitValue}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => (
+                  <LimitValueText color={cardTextColor}>
+                    {`${limitValueText}: R$${number}`}
+                  </LimitValueText>
+                )}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+              {children}
+            </CardInfoBlock>
+            <Switch
+              value={isEnabled}
+              onValueChange={(val) => handleSwitchChange(val)}
+              disabled={false}
+              circleSize={15}
+              barHeight={7}
+              circleBorderWidth={0}
+              backgroundActive={switchColors.backgroundActive}
+              backgroundInactive={switchColors.backgroundInactive}
+              circleActiveColor={switchColors.circleActiveColor}
+              circleInActiveColor={switchColors.circleInActiveColor}
+              changeValueImmediately
+              innerCircleStyle={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }} // style for inner animated circle for what you (may) be rendering inside the circle
+              outerCircleStyle={{}} // style for outer animated circle
+              renderActiveText={false}
+              renderInActiveText={false}
+              switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
+              switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
+              switchWidthMultiplier={2} // multipled by the `circleSize` prop to calculate total width of the Switch
+              switchBorderRadius={0}
             />
-            {children}
-          </CardInfoBlock>
-          <Switch
-            value={isEnabled}
-            onValueChange={(val) => handleSwitchChange(val)}
-            disabled={false}
-            circleSize={15}
-            barHeight={7}
-            circleBorderWidth={0}
-            backgroundActive={switchColors.backgroundActive}
-            backgroundInactive={switchColors.backgroundInactive}
-            circleActiveColor={switchColors.circleActiveColor}
-            circleInActiveColor={switchColors.circleInActiveColor}
-            changeValueImmediately
-            innerCircleStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
-            }} // style for inner animated circle for what you (may) be rendering inside the circle
-            outerCircleStyle={{}} // style for outer animated circle
-            renderActiveText={false}
-            renderInActiveText={false}
-            switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
-            switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
-            switchWidthMultiplier={2} // multipled by the `circleSize` prop to calculate total width of the Switch
-            switchBorderRadius={0}
-          />
-        </CardFooter>
-      </Content>
-    </Container>
+          </CardFooter>
+        </Content>
+      </Container>
+    </TouchableOpacity>
   );
 };

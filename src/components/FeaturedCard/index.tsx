@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { DefaultCard } from '../Card/defaultCard';
 import { CardProps } from '../Card';
 
@@ -11,11 +12,13 @@ export interface FeatureCardProps {
 export type FeaturedCardType = FeatureCardProps & CardProps;
 
 export const FeaturedCard: React.FC<FeaturedCardType> = (props) => {
-  const { featuredBgColor } = props;
+  const { featuredBgColor, onClickCard } = props;
 
   return (
     <Container bgColor={featuredBgColor}>
-      <DefaultCard {...props} />
+      <TouchableOpacity activeOpacity={0.9} onPress={onClickCard}>
+        <DefaultCard {...props} />
+      </TouchableOpacity>
     </Container>
   );
 };

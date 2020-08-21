@@ -392,7 +392,6 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
           isOpen={modalOpen}
           title="Detalhes da conta"
           titleColor={baseColor}
-          renderMobile={false}
           onClickClose={() => setModalOpen(false)}
           companyName={data.companyName}
           cnpj={data.cnpj}

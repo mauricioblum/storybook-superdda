@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { StyleProp, ViewStyle } from 'react-native';
 import { NetflixCard } from './netflixCard';
 import { LightBillCard } from './lightBillCard';
@@ -25,17 +26,34 @@ export interface CardProps {
   lightBillFlagStatus?: 'green' | 'yellow' | 'red';
   imageWidth?: number;
   imageHeight?: number;
+  onClickCard?(): void;
 }
 
 export const Card: React.FC<CardProps> = (props) => {
   switch (props.type) {
     case 'netflix':
-      return <NetflixCard {...props} />;
+      return (
+        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+          <NetflixCard {...props} />
+        </TouchableOpacity>
+      );
     case 'lightBill':
-      return <LightBillCard {...props} />;
+      return (
+        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+          <LightBillCard {...props} />
+        </TouchableOpacity>
+      );
     case 'default':
-      return <DefaultCard {...props} />;
+      return (
+        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+          <DefaultCard {...props} />
+        </TouchableOpacity>
+      );
     default:
-      return <DefaultCard {...props} />;
+      return (
+        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+          <DefaultCard {...props} />
+        </TouchableOpacity>
+      );
   }
 };
