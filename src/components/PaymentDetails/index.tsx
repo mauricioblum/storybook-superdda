@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import NumberFormat from 'react-number-format';
 import { ChevronLeft } from '../Icons';
 import {
@@ -44,15 +44,17 @@ export interface PaymentDetailsProps {
   scheduledDueDate: Date;
   /** Base color of the screen */
   baseColor?: string;
+  /** Type of screen (default: Payment) */
+  type?: 'Payment' | 'Schedule';
 
   onClickBack?(): void;
 
-  onConfirmPayment?(): void;
+  onConfirmPaymentSchedule?(type: string): void;
 }
 
 export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   onClickBack,
-  onConfirmPayment,
+  onConfirmPaymentSchedule,
   beneficiaryName,
   bankName,
   payerName,
@@ -63,7 +65,23 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   dueDate,
   scheduledDueDate,
   baseColor,
+  type = 'Payment',
 }) => {
+  const handlePaymentSchedule = useCallback(
+    (type: string) => {
+      onConfirmPaymentSchedule && onConfirmPaymentSchedule(type);
+    },
+    [onConfirmPaymentSchedule]
+  );
+
+  const formattedDueDate = useMemo(() => {
+    return formatDateWithBars(dueDate);
+  }, [dueDate]);
+
+  const formattedScheduledDueDate = useMemo(() => {
+    return formatDateWithBars(scheduledDueDate);
+  }, [scheduledDueDate]);
+
   return (
     <Container>
       <Header>
@@ -129,13 +147,13 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
 
           <RowBetween>
             <Label>Vencimento</Label>
-            <DefaultValue>{formatDateWithBars(dueDate)}</DefaultValue>
+            <DefaultValue>{formattedDueDate}</DefaultValue>
           </RowBetween>
 
           <RowBetween>
             <Label>Agendado para</Label>
             <TypeValue baseColor={baseColor}>
-              {formatDateWithBars(scheduledDueDate)}
+              {formattedScheduledDueDate}
             </TypeValue>
           </RowBetween>
         </BlockView>
@@ -143,10 +161,10 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         <BlockView>
           <ConfirmPaymentButton
             baseColor={baseColor}
-            onPress={onConfirmPayment}
+            onPress={() => handlePaymentSchedule(type)}
           >
             <ConfirmPaymentButtonText>
-              Confirmar Pagamento
+              Confirmar {type === 'Schedule' ? 'Agendamento' : 'Pagamento'}
             </ConfirmPaymentButtonText>
           </ConfirmPaymentButton>
         </BlockView>

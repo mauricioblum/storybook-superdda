@@ -27,11 +27,15 @@ const customViewports = {
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   backgrounds: {
-    default: 'superdda',
+    default: 'gray',
     values: [
       {
         name: 'superdda',
         value: '#fed487',
+      },
+      {
+        name: 'gray',
+        value: '#f7f5f4',
       },
       {
         name: 'white',

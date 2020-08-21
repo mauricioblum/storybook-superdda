@@ -18,7 +18,7 @@ export const Container = styled.TouchableOpacity.attrs({
 
 export const Bar = styled.View<CustomProps>`
   width: 8px;
-  height: 100%;
+  height: auto;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   background: ${(props): string => props.color || '#d71921'};

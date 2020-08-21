@@ -27,6 +27,7 @@ Default.args = {
   dueDate: new Date(),
   scheduledDueDate: new Date(),
   baseColor: '#f78c49',
+  type: 'Payment',
 };
 Default.argTypes = {
   dueDate: { control: 'date' },

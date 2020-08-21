@@ -42,14 +42,7 @@ export const CardList: React.FC<CardListProps> = ({
   }, [cards, totalDueOnly]);
 
   return (
-    <Container
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        flex: 1,
-        backgroundColor: bgColor,
-        // padding: 15,
-      }}
-    >
+    <Container bgColor={bgColor}>
       {cards.map((card, index) => (
         <CardListItem
           key={index}

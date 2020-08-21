@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   width: 100%;
+  background: ${(props: { bgColor?: string }) =>
+    props.bgColor || 'transparent'};
 `;
 
 export const ChildrenWrapper = styled.View`
