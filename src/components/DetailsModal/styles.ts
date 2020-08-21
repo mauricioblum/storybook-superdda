@@ -59,7 +59,7 @@ export const Title = styled.Text`
   font-family: 'NunitoSans-SemiBold';
   font-size: 15px;
   line-height: 24px;
-  color: #f78c49;
+  color: ${(props: { color?: string }) => props.color || '#f78c49'};
 `;
 
 export const ModalText = styled.Text`

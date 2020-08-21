@@ -1,4 +1,10 @@
 import styled from 'styled-components/native';
+import { transparentize } from 'polished';
+
+interface StyledProps {
+  baseColor: string;
+  hasDisabledStyle?: boolean;
+}
 
 export const WrapperView = styled.View`
   width: 100%;
@@ -40,7 +46,7 @@ export const Title = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 15px;
   line-height: 24px;
-  color: #f78c49;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
 export const IconsWrapper = styled.View`
@@ -76,15 +82,23 @@ export const ViewAccountDetailsButton = styled.TouchableOpacity.attrs({
   height: 40px;
   padding: 10px;
   border-radius: 8px;
-  background-color: #727272;
+  background-color: #fff;
   align-items: center;
   justify-content: center;
+  border: ${(props: StyledProps) => `2px solid ${props.baseColor}`};
+
+  ${(props: StyledProps) =>
+    props.hasDisabledStyle &&
+    `
+    border: 0;
+    background-color: #e8e8e8;
+  `}
 `;
 
 export const ViewAccountDetailsButtonText = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 15px;
-  color: #ffffff;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
 export const PdfButton = styled(ViewAccountDetailsButton)``;
@@ -103,6 +117,12 @@ export const PaymentHistoryItem = styled.View`
 export const Row = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+export const RowBetween = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const BarCodeTitle = styled.Text`
@@ -125,11 +145,13 @@ export const AccountTypeText = styled.Text`
 `;
 
 export const ButtonsWrapper = styled.View`
-  margin-top: 59px;
+  margin-top: ${(props: { withMargin: boolean | undefined }) =>
+    props.withMargin ? '59px' : '0px'};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 26px;
+  margin-bottom: ${(props: { withMargin: boolean | undefined }) =>
+    props.withMargin ? '26px' : '10px'};
 `;
 
 export const CustomButton = styled.TouchableOpacity.attrs({
@@ -140,10 +162,11 @@ export const CustomButton = styled.TouchableOpacity.attrs({
   height: 40px;
   padding: 10px;
   border-radius: 8px;
-  background-color: #727272;
+  background-color: #fff;
   align-items: center;
   justify-content: center;
   margin-right: 13px;
+  border: ${(props: StyledProps) => `2px solid ${props.baseColor}`};
 `;
 
 export const CustomButtonRight = styled(CustomButton)`
@@ -151,11 +174,14 @@ export const CustomButtonRight = styled(CustomButton)`
 `;
 
 export const CustomButtonText = styled(ViewAccountDetailsButtonText)`
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 export const PaymentHistoryLink = styled.TouchableOpacity`
   margin-top: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const PaymentHistoryLinkText = styled.Text`
@@ -173,8 +199,8 @@ export const ChartView = styled.View`
 
 export const ChartLegend = styled.View`
   width: 100%;
-  height: 40px;  
-  background: #f78c49;
+  height: 40px;
+  background: ${(props: StyledProps) => props.baseColor};
   padding-left: 25px;
   padding-top: 19px;
 `;
@@ -187,7 +213,8 @@ export const ChartLegendText = styled.Text`
 
 export const ChartLegendBottom = styled.View`
   height: 35px;
-  background-color: #fddbc6;
+  background-color: ${(props: StyledProps) =>
+    `${transparentize(0.7, props.baseColor)}`};
   padding: 8px 26px;
   padding-left: 16px;
   flex-direction: row;
@@ -198,6 +225,28 @@ export const ChartLegendBottom = styled.View`
 export const ChartLegendBottomText = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 14px;
-  color: #f78c49;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
+export const AutomaticPaymentText = styled.Text`
+  font-family: 'NunitoSans-SemiBold';
+  font-size: 14px;
+  color: #727272;
+`;
+
+export const PaymentButton = styled(CustomButtonRight)`
+  background: ${(props: StyledProps) => props.baseColor};
+`;
+
+export const PaymentButtonText = styled(CustomButtonText)`
+  font-family: 'NunitoSans-Bold';
+  color: #fff;
+  font-size: 16px;
+`;
+
+export const PaymentButtonView = styled.View`
+  margin-top: 12px;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+`;

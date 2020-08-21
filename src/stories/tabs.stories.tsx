@@ -1,5 +1,4 @@
 import * as React from 'react';
-import AppView from './AppView';
 import { Meta, Story } from '@storybook/react/types-6-0';
 
 import {
@@ -7,12 +6,9 @@ import {
   TabsProps
 } from '../components/Tabs';
 
-
-
 export default {
   title: 'SuperDDA/Tabs',
   component: Tabs,
-  decorators: [(Story) => <AppView><Story/></AppView>],
 } as Meta;
 
 const Template: Story<TabsProps> = (args) => <Tabs {...args} />;

@@ -43,10 +43,11 @@ export const CardList: React.FC<CardListProps> = ({
 
   return (
     <Container
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         flex: 1,
         backgroundColor: bgColor,
-        padding: 15,
+        // padding: 15,
       }}
     >
       {cards.map((card, index) => (

@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from 'react';
+import { lighten } from 'polished';
 import { Dimensions } from 'react-native';
-import NumberFormat from "react-number-format";
-import { LineChart } from "react-native-chart-kit";
-import { CopyIcon } from '../Icons'
+import NumberFormat from 'react-number-format';
+import { LineChart } from 'react-native-chart-kit';
+import { CopyIcon, PaymentHistoryIcon } from '../Icons';
 import {
   WrapperView,
   Container,
@@ -19,6 +20,7 @@ import {
   ValueTitleBold,
   PaymentHistoryItem,
   Row,
+  RowBetween,
   BarCodeTitle,
   CopyButton,
   BarCodeValue,
@@ -36,16 +38,21 @@ import {
   ChartLegendText,
   ChartLegendBottom,
   ChartLegendBottomText,
-} from "./styles";
+  AutomaticPaymentText,
+  PaymentButtonView,
+  PaymentButton,
+  PaymentButtonText,
+} from './styles';
 import {
   ChevronLeft,
   MoreVertical,
   IuPayIcon,
   UserCheck,
   UserX,
-} from "../Icons";
-import { DetailsModal } from "../DetailsModal";
-import { formatStringDate, formatFullDate } from "../utils/formatDate";
+} from '../Icons';
+import { DetailsModal } from '../DetailsModal';
+import { formatStringDate, formatFullDate } from '../utils/formatDate';
+import CustomSwitch from '../CustomSwitch';
 
 export interface PaymentHistoryItem {
   date: string;
@@ -79,6 +86,8 @@ export interface AccountDetailsInfoProps {
   paymentHistory?: PaymentHistoryItem[];
   isFromIuPay?: boolean;
   isUserAdded?: boolean;
+  isAutomaticDebit?: boolean;
+  automaticDebitBankName?: string;
   billDetails: BillDetails;
 }
 
@@ -88,6 +97,8 @@ export interface ChartData {
 }
 
 export interface AccountDetailsProps {
+  /** Base card color to be applied on elements */
+  baseColor?: string;
   /** Data to be displayed on screen */
   data: AccountDetailsInfoProps;
   /** Data to be displayed on screen */
@@ -100,6 +111,8 @@ export interface AccountDetailsProps {
   chartDataValue?: string | number;
   /** Chart width. Leave undefined if you want responsive width */
   chartWidth?: number;
+  /** Check if the account PDF is available */
+  pdfAvailable?: boolean;
   onClickBack?: () => void;
   onClickOptions?: () => void;
   onClickViewAccountDetails?: () => void;
@@ -109,28 +122,13 @@ export interface AccountDetailsProps {
    * on project, you can use this: https://github.com/react-native-community/clipboard
    */
   onClickCopyBarcode?: (barcode: string) => void;
+  onSwitchAutoPaymentChange?: (value: boolean) => void;
 }
 
-const chartConfig = {
-  backgroundGradientFrom: "#f78c49",
-  backgroundGradientTo: "#f78c49",
-  fillShadowGradientOpacity: 0,
-  color: () => "white",
-  strokeWidth: 2,
-  barPercentage: 0.5,
-  useShadowColorFromDataset: false,
-  propsForLabels: { fontFamily: "NunitoSans-Regular", fontSize: 14 },
-  propsForDots: {
-    r: "3.5",
-    strokeWidth: "2",
-    stroke: "#fff",
-    fill: "#f78c49",
-  },
-};
-
-const screenWidth = Dimensions.get("window").width;
+const screenWidth = Dimensions.get('window').width;
 
 export const AccountDetails: React.FC<AccountDetailsProps> = ({
+  baseColor = '#8e05c2',
   onClickBack,
   onClickOptions,
   onClickViewPDF,
@@ -143,17 +141,19 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
   chartDataText,
   chartDataValue,
   chartWidth,
+  pdfAvailable,
+  onSwitchAutoPaymentChange,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const formattedChartData = useMemo(() => {
     return {
-      labels: chartData.map(data => data.label),
+      labels: chartData.map((data) => data.label),
       datasets: [
         {
-          data: chartData.map(data => data.value),
+          data: chartData.map((data) => data.value),
           strokeWidth: 2,
-        }
+        },
       ],
     };
   }, [chartData]);
@@ -162,6 +162,42 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
     setModalOpen(!modalOpen);
     onClickViewAccountDetails && onClickViewAccountDetails();
   }, [modalOpen, onClickViewAccountDetails]);
+
+  const chartConfig = {
+    backgroundGradientFrom: baseColor,
+    backgroundGradientTo: baseColor,
+    fillShadowGradientOpacity: 0,
+    color: () => 'white',
+    strokeWidth: 2,
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false,
+    propsForLabels: { fontFamily: 'NunitoSans-Regular', fontSize: 14 },
+    propsForDots: {
+      r: '3.5',
+      strokeWidth: '2',
+      stroke: '#fff',
+      fill: baseColor,
+    },
+  };
+
+  const [paymentSwitch, setPaymentSwitch] = useState(false);
+
+  const switchColors = useMemo(() => {
+    return {
+      backgroundActive: lighten(0.25, baseColor),
+      backgroundInactive: '#b3b3b3',
+      circleActiveColor: baseColor,
+      circleInActiveColor: '#717171',
+    };
+  }, [baseColor]);
+
+  const handleSwitchPaymentChange = useCallback(
+    (value: boolean) => {
+      setPaymentSwitch(value);
+      onSwitchAutoPaymentChange && onSwitchAutoPaymentChange(value);
+    },
+    [onSwitchAutoPaymentChange]
+  );
 
   return (
     <WrapperView>
@@ -176,7 +212,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
           </OptionsButton>
         </Header>
         <TitleWrapper>
-          <Title>{data.companyName}</Title>
+          <Title baseColor={baseColor}>{data.companyName}</Title>
           <IconsWrapper>
             {data.isFromIuPay && <IuPayIcon />}
             {data.isUserAdded ? <UserCheck /> : <UserX color="#c1272d" />}
@@ -195,7 +231,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         <BlockView>
           <InfoBlock>
             <ValueTitleBold>
-              {formatStringDate(data.billDetails.billDate, "short")}
+              {formatStringDate(data.billDetails.billDate, 'short')}
             </ValueTitleBold>
           </InfoBlock>
           <InfoBlock>
@@ -240,7 +276,12 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         <BlockView>
           <Row>
             <BarCodeTitle>Código de Barras:</BarCodeTitle>
-            <CopyButton onPress={() => onClickCopyBarcode && onClickCopyBarcode(data.billDetails.barCode)}>
+            <CopyButton
+              onPress={() =>
+                onClickCopyBarcode &&
+                onClickCopyBarcode(data.billDetails.barCode)
+              }
+            >
               <CopyIcon />
             </CopyButton>
           </Row>
@@ -248,7 +289,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         </BlockView>
 
         <ChartView>
-          <ChartLegend>
+          <ChartLegend baseColor={baseColor}>
             <ChartLegendText>{chartLegend}</ChartLegendText>
           </ChartLegend>
           <LineChart
@@ -265,35 +306,81 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
             fromZero
             style={{ paddingRight: -30 }}
           />
-          <ChartLegendBottom>
-            <ChartLegendBottomText>{chartDataText}</ChartLegendBottomText>
-              <ChartLegendBottomText>{chartDataValue}</ChartLegendBottomText>
+          <ChartLegendBottom baseColor={baseColor}>
+            <ChartLegendBottomText baseColor={baseColor}>
+              {chartDataText}
+            </ChartLegendBottomText>
+            <ChartLegendBottomText baseColor={baseColor}>
+              {chartDataValue}
+            </ChartLegendBottomText>
           </ChartLegendBottom>
         </ChartView>
         <BlockView>
-          <PdfButton onPress={onClickViewPDF}>
-            <PdfButtonText>PDF da conta</PdfButtonText>
+          <PdfButton
+            disabled={!pdfAvailable}
+            hasDisabledStyle={!pdfAvailable}
+            baseColor={baseColor}
+            onPress={onClickViewPDF}
+          >
+            <PdfButtonText baseColor={pdfAvailable ? baseColor : '#fff'}>
+              {pdfAvailable ? 'PDF da conta' : 'PDF da conta não disponível'}
+            </PdfButtonText>
           </PdfButton>
         </BlockView>
 
-        <BlockView>
-          <AccountTypeText>
-            Conta em Débito automático no Banco Itaú
-          </AccountTypeText>
-        </BlockView>
+        {data.isAutomaticDebit ? (
+          <BlockView>
+            <AccountTypeText>
+              Conta em Débito automático{' '}
+              {data.automaticDebitBankName &&
+                `no ${data.automaticDebitBankName}`}
+            </AccountTypeText>
+          </BlockView>
+        ) : (
+          <BlockView>
+            <RowBetween>
+              <AutomaticPaymentText>
+                Pagamento automático no dia do vencimento
+              </AutomaticPaymentText>
+              <CustomSwitch
+                value={paymentSwitch}
+                onValueChange={(val) => handleSwitchPaymentChange(val)}
+                backgroundActive={switchColors.backgroundActive}
+                backgroundInactive={switchColors.backgroundInactive}
+                circleActiveColor={switchColors.circleActiveColor}
+                circleInActiveColor={switchColors.circleInActiveColor}
+              />
+            </RowBetween>
+            <PaymentButtonView>
+              <PaymentButton baseColor={baseColor}>
+                <PaymentButtonText baseColor={baseColor}>
+                  Pagar / Agendar
+                </PaymentButtonText>
+              </PaymentButton>
+            </PaymentButtonView>
+          </BlockView>
+        )}
 
         <BlockView>
-          <ButtonsWrapper>
-            <CustomButton onPress={onClickRejectAccount}>
-              <CustomButtonText>Recusar a conta</CustomButtonText>
+          <ButtonsWrapper withMargin={data.isAutomaticDebit}>
+            <CustomButton baseColor={baseColor} onPress={onClickRejectAccount}>
+              <CustomButtonText baseColor={baseColor}>
+                Recusar a conta
+              </CustomButtonText>
             </CustomButton>
 
-            <CustomButtonRight onPress={handleViewAccountDetails}>
-              <CustomButtonText>Ver detalhes da conta</CustomButtonText>
+            <CustomButtonRight
+              baseColor={baseColor}
+              onPress={handleViewAccountDetails}
+            >
+              <CustomButtonText baseColor={baseColor}>
+                Ver detalhes da conta
+              </CustomButtonText>
             </CustomButtonRight>
           </ButtonsWrapper>
 
           <PaymentHistoryLink>
+            <PaymentHistoryIcon />
             <PaymentHistoryLinkText>
               HISTÓRICO DE PAGAMENTOS
             </PaymentHistoryLinkText>
@@ -304,6 +391,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         <DetailsModal
           isOpen={modalOpen}
           title="Detalhes da conta"
+          titleColor={baseColor}
           renderMobile={false}
           onClickClose={() => setModalOpen(false)}
           companyName={data.companyName}

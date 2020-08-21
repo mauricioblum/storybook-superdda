@@ -21,6 +21,7 @@ import { formatMonthDate, formatStringDate } from '../utils/formatDate';
 
 export interface DetailsModalProps {
   title?: string;
+  titleColor?: string;
   companyName?: string;
   cnpj?: string;
   cardNumber?: string;
@@ -63,6 +64,7 @@ const renderModal = (props: DetailsModalProps): JSX.Element => {
     interestInstallmentRate,
     interestInstallmentRateCET,
     interestInstallmentFine,
+    titleColor,
   } = props;
 
   return isOpen ? (
@@ -76,7 +78,7 @@ const renderModal = (props: DetailsModalProps): JSX.Element => {
         </ModalRow>
       </ModalHeader>
       <ModalContent>
-        <Title>{companyName}</Title>
+        <Title color={titleColor}>{companyName}</Title>
         <ModalText>CNPJ {cnpj}</ModalText>
         <ModalText>Cartão {cardNumber}</ModalText>
 
@@ -178,9 +180,7 @@ const renderModal = (props: DetailsModalProps): JSX.Element => {
   );
 };
 
-export const DetailsModal: React.FC<DetailsModalProps> = (
-  props,
-) => {
+export const DetailsModal: React.FC<DetailsModalProps> = (props) => {
   const { renderMobile, isOpen, title } = props;
 
   return renderMobile ? (

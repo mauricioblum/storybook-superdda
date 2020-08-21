@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View, Image } from 'react-native';
 
 export interface IconProps {
   color?: string;
@@ -11,7 +11,7 @@ const iconStyle = {
 };
 
 export const MailIcon: React.FC<IconProps> = ({
-  color = "#2d2d2d",
+  color = '#2d2d2d',
   size = 20,
 }) => {
   return (
@@ -37,7 +37,7 @@ export const MailIcon: React.FC<IconProps> = ({
 };
 
 export const UserCheck: React.FC<IconProps> = ({
-  color = "#009245",
+  color = '#009245',
   size = 16,
 }) => {
   return (
@@ -63,7 +63,7 @@ export const UserCheck: React.FC<IconProps> = ({
   );
 };
 
-export const UserX: React.FC<IconProps> = ({ color = "#000", size = 16 }) => {
+export const UserX: React.FC<IconProps> = ({ color = '#000', size = 16 }) => {
   return (
     <View style={iconStyle}>
       <svg
@@ -89,7 +89,7 @@ export const UserX: React.FC<IconProps> = ({ color = "#000", size = 16 }) => {
 };
 
 export const LightBulb: React.FC<IconProps> = ({
-  color = "#999999",
+  color = '#999999',
   size = 22,
 }) => {
   return (
@@ -111,7 +111,7 @@ export const LightBulb: React.FC<IconProps> = ({
 };
 
 export const ChevronLeft: React.FC<IconProps> = ({
-  color = "#707070",
+  color = '#707070',
   size = 40,
 }) => {
   return (
@@ -134,7 +134,7 @@ export const ChevronLeft: React.FC<IconProps> = ({
 };
 
 export const MoreVertical: React.FC<IconProps> = ({
-  color = "#707070",
+  color = '#707070',
   size = 40,
 }) => {
   return (
@@ -159,7 +159,7 @@ export const MoreVertical: React.FC<IconProps> = ({
 };
 
 export const IuPayIcon: React.FC<IconProps & { marginRight?: number }> = ({
-  color = "#000",
+  color = '#000',
   size = 24,
   marginRight = 10,
 }) => {
@@ -182,7 +182,7 @@ export const IuPayIcon: React.FC<IconProps & { marginRight?: number }> = ({
 };
 
 export const CloseCircle: React.FC<IconProps> = ({
-  color = "#727272",
+  color = '#727272',
   size = 40,
 }) => {
   return (
@@ -207,9 +207,9 @@ export const CloseCircle: React.FC<IconProps> = ({
 };
 
 export const SearchIcon: React.FC<IconProps & { margin?: string }> = ({
-  color = "#727272",
+  color = '#727272',
   size = 16,
-  margin = "0px 10px 0px 10px",
+  margin = '0px 10px 0px 10px',
 }) => {
   return (
     <View style={{ margin }}>
@@ -234,11 +234,11 @@ export const SearchIcon: React.FC<IconProps & { margin?: string }> = ({
 };
 
 export const CopyIcon: React.FC<IconProps> = ({
-  color = "#727272",
+  color = '#727272',
   size = 16,
 }) => {
   return (
-    <View style={{ marginLeft: 5}}>
+    <View style={{ marginLeft: 5 }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}
@@ -255,6 +255,19 @@ export const CopyIcon: React.FC<IconProps> = ({
         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
       </svg>
+    </View>
+  );
+};
+
+export const PaymentHistoryIcon: React.FC<IconProps> = () => {
+  return (
+    <View style={{ marginRight: 6 }}>
+      <Image
+        style={{ width: 30, height: 30 }}
+        source={{
+          uri: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABHNCSVQICAgIfAhkiAAABAZJREFUeF7tnU3IDlEUx+8rwoJSooh8hQVZWLCQYmMnQllbysLCQhKxkEQKKdlYWYiytmBjwUaJhHxtlERKIfns1czr/9aMOefcO/fOvf7v6jzz/M85d35z5szcZz7eETecv9kwlMOVPUc5vNeV/gj4vVXG6EU+0ktUW1CCtnFTexG0Gtm/HabC15vAXg32Ss+cD8D/Htg3wP7kmUPlnqJ1ELRqE9nFBG1np/LcCWq0VUGM4ivgd9kYw+SWonUQtHJTLQT9UoXvRtAuU/iFkD6BIDcVAZ+C9qXCb0zqU9EErSBO0DJY0St6LozrHNg+G6xpVXdXCz/LOIypJlXWRaVfl/wXCPaAXU/5u/ydFhBBO0fQzrliKnod7CP7OvcXu6D+9e6LMsTESn9M6aeRnwTxbamjtnUQtHME7Zz7ryr6GuxODxt2rS2wbJV01wukuw9xrrfEXFEt39by/WAqmqAbtlAfPZqgI4Hu2rU2wzh2BWoJ0jCXBK2jPuC3nVV1rV/jWPqo6K6BELSgLCSndwQ9kNYxAcaxBuyZgg1tkbwHp7tg/2gJVkzrIGhBuYRoHYI0SSXFVHRSioLkBC2AFEJSDGjs0dNDkFHE+Ajan//TwZCgO7b26NfWmRMrWrALWs86pkHsU2DPEuQMKcFbeLFQsKVk3aMJWlkurOgBXWFp+q0D72Q6ody4fckPQOBHYGfdOghaWS7W1kHQkUBjmg3wYZEyv6/8BQS4VfqEhaAF5WJtHYLQg5FkfTAcDEXBQAhaACmEJGvQeBF4O9BYEoKMIsYz0F4FG2/LJWgF0DYpQQeAKAlRPOjlQOG4hEgEzUHIgfcIZt06CFpZOdbzaIKOBHoK5MF3aaScguM48KGkrFsHQbOi/xAopqKV2zOpPOvWkZScMnkxoGfAii9QQvCVv4IAH1qCEbQvZeccQQeAKAlRPGi8UeY8EKmfC5RACqH5DkHwme43sDzr1kHQyjKxTsEJOhLoeZDnrDJnX/K9EBh7d9atg6CV5WJtHQQdCTSmWQwfUl4zfF76hIWgBdVtbR2saAFclIQArUwZXZ71WUd0Wh4JCdoDnsaVoIHWerB3gD25gyje13EatN9K+a1DU1ESLUE748M0ErqgOQP2fKVvLa/frTf6GV9qxdZB0ONLqusNNMYCHOfGio7UOvDNNVuNB8ML4IcXBNg6AAxBs6KbO2OK17GF6NF9xmDr6JMuJyyR6BI0QZvfQBMfnS4je7SOl1mdDejHsIrvzKubzrF+dSc+DoKjMc18+zi9I+iGItGCXgsx9qcruqSZ8fG9O9KRELSU1F8dQeuZmTyigMZLRUdhmLH/XZ6JkIcT/nu+QxDnqzSmtnUQtHMELa0ug867on8DRATOarjMuDMAAAAASUVORK5CYII=`,
+        }}
+      />
     </View>
   );
 };
