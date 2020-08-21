@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
 
+interface StyledProps {
+  baseColor: string;
+  hasDisabledStyle?: boolean;
+}
+
 export const WrapperView = styled.View`
   width: 100%;
   position: relative;
@@ -40,7 +45,7 @@ export const Title = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 15px;
   line-height: 24px;
-  color: #f78c49;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
 export const IconsWrapper = styled.View`
@@ -71,18 +76,17 @@ export const ValueDescription = styled(ValueTitle)`
 
 export const ValueActive = styled.Text.attrs({
   textDecorationStyle: 'solid',
-  textDecorationColor: '#f78c49',
 })`
   font-family: 'NunitoSans-Bold';
   text-decoration: underline;
-  text-decoration-color: '#f78c49';
+  text-decoration-color: ${(props: StyledProps) => props.baseColor};
   font-size: 15px;
-  color: #f78c49;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
 export const CardHolderContainer = styled.View`
   width: 100%;
-  background: #f78c49;
+  background: ${(props: StyledProps) => props.baseColor};
   padding: 16px;
   margin-bottom: 15px;
 `;
@@ -107,7 +111,7 @@ export const CardHolderButton = styled.TouchableOpacity.attrs({
 
 export const CardHolderButtonText = styled(CardHolderText)`
   margin-top: 2px;
-  color: #f78c49;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
 export const ViewBeneficiaryDetailsButton = styled.TouchableOpacity.attrs({
@@ -120,12 +124,21 @@ export const ViewBeneficiaryDetailsButton = styled.TouchableOpacity.attrs({
   background-color: #727272;
   align-items: center;
   justify-content: center;
+  background-color: #fff;
+  border: ${(props: StyledProps) => `2px solid ${props.baseColor}`};
+
+  ${(props: StyledProps) =>
+    props.hasDisabledStyle &&
+    `
+    border: 0;
+    background-color: #e8e8e8;
+  `}
 `;
 
 export const ViewBeneficiaryDetailsButtonText = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 15px;
-  color: #ffffff;
+  color: ${(props: StyledProps) => props.baseColor};
 `;
 
 export const PaymentHistoryContainer = styled.View`
@@ -136,11 +149,16 @@ export const PaymentHistoryContainer = styled.View`
   padding-bottom: 20px;
 `;
 
+export const PaymentHistoryRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding-left: 25px;
+`;
+
 export const PaymentHistoryTitle = styled.Text`
   font-family: 'NunitoSans-Regular';
   font-size: 15px;
   color: #727272;
-  padding-left: 25px;
 `;
 
 export const PaymentHistoryData = styled.ScrollView`
@@ -157,8 +175,19 @@ export const PaymentHistoryItem = styled.View`
   justify-content: space-between;
 `;
 
+export const PaymentMonthWrapper = styled.View``;
+
 export const PaymentMonth = styled(PaymentHistoryTitle)`
   text-transform: uppercase;
+  padding: 0;
+  margin: 0;
+`;
+
+export const PaymentOpenStatus = styled.Text`
+  font-family: 'NunitoSans-Regular';
+  font-size: 13px;
+  color: #707070;
+  margin: 0;
   padding: 0;
 `;
 

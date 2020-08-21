@@ -25,7 +25,12 @@ const paymentHistory = [
   },
   {
     date: '2020-05',
+    value: 1174.13,
+  },
+  {
+    date: '2020-06',
     value: 1289.55,
+    isOpen: true,
   },
 ];
 
@@ -34,36 +39,41 @@ export default {
   component: BeneficiaryDetails,
 } as Meta;
 
-const Template: Story<BeneficiaryDetailsProps> = (args) => <BeneficiaryDetails {...args} />;
+const Template: Story<BeneficiaryDetailsProps> = (args) => (
+  <BeneficiaryDetails {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
   historyReverse: true,
-    data: {
-      companyLogo:
-        'https://cdn2.downdetector.com/static/uploads/logo/Nubank_logo.png',
-      companyName: 'Nu Pagamentos S.A.',
-      cnpj: '18.236.120/0001-58',
-      cardNumber: '5162 **** **** 9090',
-      isFromIuPay: true,
-      isUserAdded: false,
-      authorizedLimit: false,
-      autoPayment: false,
-      cardHolderName: 'Roberto de Oliveira Santos',
-      paymentHistory,
-      billDetails: {
-        billDate: '2020-06',
-        dueDate: new Date('2020-06-19T23:00:00.000Z'),
-        emissionDate: new Date('2020-06-06T23:00:00.000Z'),
-        interestInstallmentFine: 22,
-        interestInstallmentRate: 12,
-        interestInstallmentRateCET: 15,
-        interestRate: 14,
-        interestRateCET: 385.17,
-        minimumPaymentValue: 400,
-        totalLimitValue: 1200,
-        totalWithdrawLimitValue: 600,
-        value: 1230.89
-      },
+  data: {
+    companyLogo:
+      'https://cdn2.downdetector.com/static/uploads/logo/Nubank_logo.png',
+    companyName: 'Nu Pagamentos S.A.',
+    cnpj: '18.236.120/0001-58',
+    cardNumber: '5162 **** **** 9090',
+    isFromIuPay: true,
+    isUserAdded: false,
+    authorizedLimit: false,
+    autoPayment: false,
+    cardHolderName: 'Roberto de Oliveira Santos',
+    paymentHistory,
+    billDetails: {
+      billDate: '2020-06',
+      dueDate: new Date('2020-06-19T23:00:00.000Z'),
+      emissionDate: new Date('2020-06-06T23:00:00.000Z'),
+      interestInstallmentFine: 22,
+      interestInstallmentRate: 12,
+      interestInstallmentRateCET: 15,
+      interestRate: 14,
+      interestRateCET: 385.17,
+      minimumPaymentValue: 400,
+      totalLimitValue: 1200,
+      totalWithdrawLimitValue: 600,
+      value: 1230.89,
     },
+  },
+};
+Default.argTypes = {
+  baseColor: { control: 'color' },
 };

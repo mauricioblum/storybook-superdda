@@ -6,24 +6,34 @@ export function formatDate(date: Date | undefined): string | null {
 }
 
 export function formatFullDate(date: Date | undefined): string | null {
-  return date ? format(date, 'dd MMM yyyy', { locale: ptBR }).toUpperCase() : null;
+  return date
+    ? format(date, 'dd MMM yyyy', { locale: ptBR }).toUpperCase()
+    : null;
+}
+
+export function formatDateWithBars(date: Date | undefined): string | null {
+  return date
+    ? format(date, "dd'/'MM'/'yyyy", { locale: ptBR }).toUpperCase()
+    : null;
 }
 
 export function formatStringDate(
   date: string | undefined,
-  formatStr = 'long',
+  formatStr = 'long'
 ): string {
   if (date) {
     const splitDate = date.split('-');
 
     const formattedDate = new Date(
       Number(splitDate[0]),
-      Number(splitDate[1]) - 1,
+      Number(splitDate[1]) - 1
     );
 
     const formatTemplate = formatStr === 'short' ? 'MMM yyyy' : 'MMMM yyyy';
 
-    return format(formattedDate, formatTemplate, { locale: ptBR }).toUpperCase();
+    return format(formattedDate, formatTemplate, {
+      locale: ptBR,
+    }).toUpperCase();
   }
   return '';
 }

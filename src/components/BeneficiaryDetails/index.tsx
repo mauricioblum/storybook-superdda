@@ -23,10 +23,13 @@ import {
   ViewBeneficiaryDetailsButton,
   ViewBeneficiaryDetailsButtonText,
   PaymentHistoryContainer,
+  PaymentHistoryRow,
   PaymentHistoryTitle,
   PaymentHistoryData,
   PaymentHistoryItem,
+  PaymentMonthWrapper,
   PaymentMonth,
+  PaymentOpenStatus,
   PaymentValueInfo,
   PaymentCurrency,
   PaymentValue,
@@ -37,6 +40,7 @@ import {
   IuPayIcon,
   UserCheck,
   UserX,
+  PaymentHistoryIcon,
 } from '../Icons';
 import { DetailsModal } from '../DetailsModal';
 import { formatStringDate } from '../utils/formatDate';
@@ -44,6 +48,7 @@ import { formatStringDate } from '../utils/formatDate';
 export interface PaymentHistoryItem {
   date: string;
   value: number;
+  isOpen?: boolean;
 }
 
 export interface BillDetails {
@@ -80,6 +85,8 @@ export interface BeneficiaryDetailsProps {
   data: BeneficiaryDetailsInfoProps;
   /** Payment history table months reversed or not. */
   historyReverse?: boolean;
+  /** Base card color to be applied on elements */
+  baseColor?: string;
   onClickBack?: () => void;
   onClickOptions?: () => void;
   onClickViewCard?: () => void;
@@ -90,6 +97,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
   onClickBack,
   onClickOptions,
   onClickViewCard,
+  baseColor = '#8e05c2',
   data,
   historyReverse,
 }) => {
@@ -121,7 +129,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           </OptionsButton>
         </Header>
         <TitleWrapper>
-          <Title>{data.companyName}</Title>
+          <Title baseColor={baseColor}>{data.companyName}</Title>
           <IconsWrapper>
             {data.isFromIuPay && <IuPayIcon />}
             {data.isUserAdded ? <UserCheck /> : <UserX color="#c1272d" />}
@@ -141,23 +149,25 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         <BlockView>
           <InfoBlock>
             <ValueTitle>Pagamento Automático: </ValueTitle>
-            <ValueActive>
+            <ValueActive baseColor={baseColor}>
               {data.autoPayment ? 'Ativado' : 'Desativado'}
             </ValueActive>
           </InfoBlock>
           <InfoBlock>
             <ValueTitle>Limite de Autorização: </ValueTitle>
-            <ValueActive>
+            <ValueActive baseColor={baseColor}>
               {data.authorizedLimit ? 'Ativado' : 'Desativado'}
             </ValueActive>
           </InfoBlock>
         </BlockView>
 
-        <CardHolderContainer>
+        <CardHolderContainer baseColor={baseColor}>
           <CardHolderCard>
             <CardHolderText>{data.cardHolderName}</CardHolderText>
             <CardHolderButton onPress={onClickViewCard}>
-              <CardHolderButtonText>Acessar cartão</CardHolderButtonText>
+              <CardHolderButtonText baseColor={baseColor}>
+                Acessar cartão
+              </CardHolderButtonText>
             </CardHolderButton>
           </CardHolderCard>
         </CardHolderContainer>
@@ -166,21 +176,30 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           <BlockView>
             <ViewBeneficiaryDetailsButton
               onPress={() => setModalOpen(!modalOpen)}
+              baseColor={baseColor}
             >
-              <ViewBeneficiaryDetailsButtonText>
-                Ver detalhes da conta
+              <ViewBeneficiaryDetailsButtonText baseColor={baseColor}>
+                Ver detalhes do beneficiário
               </ViewBeneficiaryDetailsButtonText>
             </ViewBeneficiaryDetailsButton>
           </BlockView>
         )}
 
         <PaymentHistoryContainer>
-          <PaymentHistoryTitle>Histórico de Pagamentos</PaymentHistoryTitle>
+          <PaymentHistoryRow>
+            <PaymentHistoryIcon />
+            <PaymentHistoryTitle>Histórico de Pagamentos</PaymentHistoryTitle>
+          </PaymentHistoryRow>
 
           <PaymentHistoryData>
             {paymentHistory.map((item) => (
               <PaymentHistoryItem key={item.date}>
-                <PaymentMonth>{formatDate(item.date)}</PaymentMonth>
+                <PaymentMonthWrapper>
+                  <PaymentMonth>{formatDate(item.date)}</PaymentMonth>
+                  {item.isOpen && (
+                    <PaymentOpenStatus>em aberto</PaymentOpenStatus>
+                  )}
+                </PaymentMonthWrapper>
                 <PaymentValueInfo>
                   <PaymentCurrency>R$ </PaymentCurrency>
                   <NumberFormat
@@ -204,6 +223,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         <DetailsModal
           isOpen={modalOpen}
           title="Detalhes da conta"
+          titleColor={baseColor}
           onClickClose={() => setModalOpen(false)}
           companyName={data.companyName}
           cnpj={data.cnpj}
