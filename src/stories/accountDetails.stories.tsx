@@ -44,7 +44,7 @@ AutomaticDebit.args = {
   chartDataText: 'JUNHO',
   chartDataValue: 'R$ 1.983,36',
   chartLegend: 'Resumo das Faturas Anteriores',
-  chartWidth: 375,
+  chartWidth: 414,
   chartData: [
     {
       label: 'Dez',
@@ -115,7 +115,7 @@ PaymentAccountDetails.args = {
   chartDataText: 'JUNHO',
   chartDataValue: 'R$ 1.983,36',
   chartLegend: 'Resumo das Faturas Anteriores',
-  chartWidth: 375,
+  chartWidth: 414,
   chartData: [
     {
       label: 'Dez',

@@ -123,6 +123,7 @@ export interface AccountDetailsProps {
    */
   onClickCopyBarcode?: (barcode: string) => void;
   onSwitchAutoPaymentChange?: (value: boolean) => void;
+  onClickPaymentScheduleButton?(): void;
 }
 
 const screenWidth = Dimensions.get('window').width;
@@ -133,6 +134,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
   onClickOptions,
   onClickViewPDF,
   onClickViewAccountDetails,
+  onClickPaymentScheduleButton,
   onClickRejectAccount,
   onClickCopyBarcode,
   chartData,
@@ -352,7 +354,10 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
               />
             </RowBetween>
             <PaymentButtonView>
-              <PaymentButton baseColor={baseColor}>
+              <PaymentButton
+                baseColor={baseColor}
+                onPress={onClickPaymentScheduleButton}
+              >
                 <PaymentButtonText baseColor={baseColor}>
                   Pagar / Agendar
                 </PaymentButtonText>
