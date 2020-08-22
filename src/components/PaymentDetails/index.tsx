@@ -68,10 +68,10 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   type = 'Payment',
 }) => {
   const handlePaymentSchedule = useCallback(
-    (type: string) => {
-      onConfirmPaymentSchedule && onConfirmPaymentSchedule(type);
+    (paymentType: string) => {
+      onConfirmPaymentSchedule && onConfirmPaymentSchedule(paymentType);
     },
-    [onConfirmPaymentSchedule]
+    [onConfirmPaymentSchedule],
   );
 
   const formattedDueDate = useMemo(() => {

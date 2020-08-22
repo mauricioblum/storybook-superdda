@@ -150,10 +150,10 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const formattedChartData = useMemo(() => {
     return {
-      labels: chartData.map((data) => data.label),
+      labels: chartData.map((cData) => cData.label),
       datasets: [
         {
-          data: chartData.map((data) => data.value),
+          data: chartData.map((cData) => cData.value),
           strokeWidth: 2,
         },
       ],
@@ -198,7 +198,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
       setPaymentSwitch(value);
       onSwitchAutoPaymentChange && onSwitchAutoPaymentChange(value);
     },
-    [onSwitchAutoPaymentChange]
+    [onSwitchAutoPaymentChange],
   );
 
   return (

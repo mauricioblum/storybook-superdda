@@ -77,7 +77,7 @@ export const BeneficiaryCard: React.FC<BeneficiaryCardProps> = ({
       setIsEnabled(value);
       onSwitchChange && onSwitchChange(value);
     },
-    [onSwitchChange]
+    [onSwitchChange],
   );
 
   const cardTypeText = useMemo(() => {
