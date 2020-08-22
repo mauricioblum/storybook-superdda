@@ -88,6 +88,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
               borderRadius: 5,
               padding: 5,
               marginLeft: 5,
+              minWidth: 60,
             }}
             onEndEditing={() => onSearch(searchValue)}
             onChangeText={(text) => handleValueChange(text)}
