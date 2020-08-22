@@ -29,7 +29,6 @@ export const CloseModalButton = styled.TouchableOpacity``;
 export const ModalTitle = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 15px;
-  line-height: normal;
   color: #727272;
 `;
 
