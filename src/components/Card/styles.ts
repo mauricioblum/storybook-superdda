@@ -125,7 +125,6 @@ export const CardValue = styled.View`
 export const CurrencyText = styled.Text`
   font-family: 'NunitoSans-Regular';
   font-size: 13px;
-  line-height: 16px;
   text-align: right;
   color: #7a7a7b;
   margin-right: 2px;
@@ -135,7 +134,6 @@ export const ValueText = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 17px;
   font-weight: bold;
-  line-height: 16px;
   text-align: right;
   color: #7a7a7b;
 `;
