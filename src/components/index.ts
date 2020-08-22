@@ -9,3 +9,7 @@ export * from './FilterSearch';
 export * from './Tabs';
 export * from './Button';
 export * from './DetailsModal';
+export * from './PaidDetails';
+export * from './PaymentDetails';
+export * from './Receipt';
+export * from './Popup';

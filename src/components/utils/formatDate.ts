@@ -43,3 +43,7 @@ export function formatMonthDate(date: Date | undefined): string {
     ? format(date, 'dd MMM yyyy', { locale: ptBR }).toUpperCase()
     : '';
 }
+
+export function formatFullDateToMonthDate(date: Date | undefined): string {
+  return date ? format(date, 'MMMM yyyy', { locale: ptBR }).toUpperCase() : '';
+}
