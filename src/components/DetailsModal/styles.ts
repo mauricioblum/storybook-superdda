@@ -57,7 +57,7 @@ export const ModalWebContainer = styled.View`
   ${(props: { mobile?: boolean }) =>
     props.mobile &&
     `
-    position: initial;
+    position: relative;
     top: unset;
     left: unset;
     width: auto;

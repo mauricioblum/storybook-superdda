@@ -178,13 +178,11 @@ export const CloseCircle: React.FC<IconProps> = ({
   );
 };
 
-export const SearchIcon: React.FC<IconProps & { margin?: string }> = ({
-  color = '#727272',
-  size = 16,
-  margin = '0px 10px 0px 10px',
-}) => {
+export const SearchIcon: React.FC<
+  IconProps & { marginHorizontal?: number }
+> = ({ color = '#727272', size = 16, marginHorizontal = 10 }) => {
   return (
-    <View style={{ margin }}>
+    <View style={{ marginHorizontal }}>
       <Svg
         viewBox="0 0 24 24"
         fill="none"

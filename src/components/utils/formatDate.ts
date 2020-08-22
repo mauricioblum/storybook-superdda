@@ -19,14 +19,14 @@ export function formatDateWithBars(date: Date | undefined): string | null {
 
 export function formatStringDate(
   date: string | undefined,
-  formatStr = 'long'
+  formatStr = 'long',
 ): string {
   if (date) {
     const splitDate = date.split('-');
 
     const formattedDate = new Date(
       Number(splitDate[0]),
-      Number(splitDate[1]) - 1
+      Number(splitDate[1]) - 1,
     );
 
     const formatTemplate = formatStr === 'short' ? 'MMM yyyy' : 'MMMM yyyy';

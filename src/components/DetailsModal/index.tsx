@@ -44,7 +44,7 @@ export interface DetailsModalProps {
 
 const renderModal = (
   props: DetailsModalProps,
-  isMobile?: boolean
+  isMobile?: boolean,
 ): JSX.Element => {
   const {
     isOpen,

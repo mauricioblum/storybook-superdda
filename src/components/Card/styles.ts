@@ -118,6 +118,8 @@ export const MailIcon = styled.Image`
 export const CardValue = styled.View`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  min-height: 25px;
 `;
 
 export const CurrencyText = styled.Text`
