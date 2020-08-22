@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { transparentize } from 'polished';
 
 interface StyledProps {
   baseColor?: string;

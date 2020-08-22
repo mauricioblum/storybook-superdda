@@ -45,13 +45,13 @@ import {
 import { DetailsModal } from '../DetailsModal';
 import { formatStringDate } from '../utils/formatDate';
 
-export interface PaymentHistoryItem {
+export interface BeneficiaryPaymentHistoryItem {
   date: string;
   value: number;
   isOpen?: boolean;
 }
 
-export interface BillDetails {
+export interface BeneficiaryBillDetails {
   billDate: string;
   value: number;
   dueDate: Date;
@@ -74,10 +74,10 @@ export interface BeneficiaryDetailsInfoProps {
   autoPayment?: boolean;
   authorizedLimit?: boolean;
   cardHolderName?: string;
-  paymentHistory?: PaymentHistoryItem[];
+  paymentHistory?: BeneficiaryPaymentHistoryItem[];
   isFromIuPay?: boolean;
   isUserAdded?: boolean;
-  billDetails?: BillDetails;
+  billDetails?: BeneficiaryBillDetails;
 }
 
 export interface BeneficiaryDetailsProps {
