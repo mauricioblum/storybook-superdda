@@ -29,7 +29,7 @@ export const CloseModalButton = styled.TouchableOpacity``;
 export const ModalTitle = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 15px;
-  line-height: 1;
+  line-height: normal;
   color: #727272;
 `;
 
@@ -58,8 +58,8 @@ export const ModalWebContainer = styled.View`
     props.mobile &&
     `
     position: relative;
-    top: unset;
-    left: unset;
+    top: 0;
+    left: 0;
     width: auto;
   `};
 `;
