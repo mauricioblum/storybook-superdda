@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Meta } from '@storybook/react/types-6-0';
 import { View, Text, StyleProp, TextStyle } from 'react-native';
+import { AppHeader } from '../components/AppHeader';
 import { Tabs } from '../components/Tabs';
 import { MonthSelector } from '../components/MonthSelector';
 import { CardList } from '../components/CardList';
@@ -82,6 +83,7 @@ const tabs = [
 export const Default = () => {
   return (
     <View>
+      <AppHeader title="Meus pagamentos" />
       <Tabs tabs={tabs} />
       <MonthSelector currentMonth={7} />
       <FeaturedCard

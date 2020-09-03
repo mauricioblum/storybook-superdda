@@ -235,3 +235,23 @@ export const PaymentHistoryIcon: React.FC<IconProps> = () => {
     </View>
   );
 };
+
+export const BarcodeIcon: React.FC<IconProps> = ({
+  color = '#000',
+  size = 26,
+}) => {
+  return (
+    <View>
+      <Svg
+        viewBox="0 0 480 480"
+        fill="currentColor"
+        stroke="currentColor"
+        width={size}
+        height={size}
+        color={color}
+      >
+        <Path d="M80 48H16C7.168 48 0 55.168 0 64v64c0 8.832 7.168 16 16 16s16-7.168 16-16V80h48c8.832 0 16-7.168 16-16s-7.168-16-16-16zm384 288c-8.832 0-16 7.168-16 16v48h-48c-8.832 0-16 7.168-16 16s7.168 16 16 16h64c8.832 0 16-7.168 16-16v-64c0-8.832-7.168-16-16-16zm0-288h-64c-8.832 0-16 7.168-16 16s7.168 16 16 16h48v48c0 8.832 7.168 16 16 16s16-7.168 16-16V64c0-8.832-7.168-16-16-16zM80 400H32v-48c0-8.832-7.168-16-16-16s-16 7.168-16 16v64c0 8.832 7.168 16 16 16h64c8.832 0 16-7.168 16-16s-7.168-16-16-16zM64 112h32v256H64zm64 0h32v192h-32zm64 0h32v192h-32zm64 0h32v256h-32zm64 0h32v192h-32zm64 0h32v256h-32zM128 336h32v32h-32zm64 0h32v32h-32zm128 0h32v32h-32z" />
+      </Svg>
+    </View>
+  );
+};

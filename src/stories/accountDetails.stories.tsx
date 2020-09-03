@@ -5,7 +5,6 @@ import {
   AccountDetails,
   AccountDetailsProps,
 } from '../components/AccountDetails';
-import { toUnicode } from 'punycode';
 
 const paymentHistory = [
   {
