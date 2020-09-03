@@ -57,6 +57,7 @@ Default.args = {
     authorizedLimit: false,
     autoPayment: false,
     cardHolderName: 'Roberto de Oliveira Santos',
+    cardHolderAddress: 'Avenida Sete de Setembro 32/1101 Icaraí - Niterói - RJ',
     paymentHistory,
     billDetails: {
       billDate: '2020-06',

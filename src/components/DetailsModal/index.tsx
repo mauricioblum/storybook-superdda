@@ -20,12 +20,14 @@ import {
 import { formatMonthDate, formatStringDate } from '../utils/formatDate';
 
 export interface DetailsModalProps {
+  modalType: 'beneficiary' | 'account';
   title?: string;
   titleColor?: string;
   companyName?: string;
   cnpj?: string;
   cardNumber?: string;
   clientName?: string;
+  clientAddress?: string;
   month?: string;
   value?: number;
   dueDate?: Date;
@@ -54,6 +56,7 @@ const renderModal = (
     cnpj,
     cardNumber,
     clientName,
+    clientAddress,
     month,
     value,
     dueDate,
@@ -67,10 +70,13 @@ const renderModal = (
     interestInstallmentRateCET,
     interestInstallmentFine,
     titleColor,
+    modalType,
   } = props;
 
+  const isAccount = modalType === 'account';
+
   return isOpen ? (
-    <ModalWebContainer mobile={isMobile}>
+    <ModalWebContainer mobile={isMobile} modalType={modalType}>
       <ModalHeader>
         <ModalRow>
           <ModalTitle>{title}</ModalTitle>
@@ -84,80 +90,100 @@ const renderModal = (
         <ModalText>CNPJ {cnpj}</ModalText>
         <ModalText>Cartão {cardNumber}</ModalText>
 
-        <ModalInfoBlock>
-          <ModalText>{clientName}</ModalText>
-          <ModalTextBold>
-            {formatStringDate(month, 'short').toUpperCase()}
-          </ModalTextBold>
+        {isAccount ? (
+          <ModalInfoBlock>
+            <ModalText modalType={modalType}>{clientName}</ModalText>
+            <ModalTextBold>
+              {formatStringDate(month, 'short').toUpperCase()}
+            </ModalTextBold>
+            <ModalInfoRow>
+              <ModalText>Valor: </ModalText>
+              <NumberFormat
+                value={value}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => (
+                  <ModalTextBold>R$ {number}</ModalTextBold>
+                )}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+            </ModalInfoRow>
+            <ModalInfoRow>
+              <ModalText>Vencimento: </ModalText>
+              <ModalTextBold>{formatMonthDate(dueDate)}</ModalTextBold>
+            </ModalInfoRow>
 
-          <ModalInfoRow>
-            <ModalText>Valor: </ModalText>
-            <NumberFormat
-              value={value}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => (
-                <ModalTextBold>R$ {number}</ModalTextBold>
-              )}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </ModalInfoRow>
+            <ModalInfoRow>
+              <ModalText>Emissão e Envio: </ModalText>
+              <ModalText>{formatMonthDate(emissionDate)}</ModalText>
+            </ModalInfoRow>
+          </ModalInfoBlock>
+        ) : (
+          <>
+            <ModalInfoBlock>
+              <ModalInfoRow>
+                <ModalText modalType={modalType}>{clientName}</ModalText>
+              </ModalInfoRow>
+            </ModalInfoBlock>
+            <ModalInfoBlock>
+              <ModalInfoRow>
+                <ModalTextBold>Endereço</ModalTextBold>
+              </ModalInfoRow>
+              <ModalInfoRow>
+                <ModalText style={{ maxWidth: '250px' }}>
+                  {clientAddress}
+                </ModalText>
+              </ModalInfoRow>
+            </ModalInfoBlock>
+          </>
+        )}
 
-          <ModalInfoRow>
-            <ModalText>Vencimento: </ModalText>
-            <ModalTextBold>{formatMonthDate(dueDate)}</ModalTextBold>
-          </ModalInfoRow>
+        {isAccount && (
+          <ModalInfoBlock>
+            <ModalInfoRow>
+              <ModalText>Pagamento mínimo: </ModalText>
+              <NumberFormat
+                value={minimumPaymentValue}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => (
+                  <ModalTextBold>R$ {number}</ModalTextBold>
+                )}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+            </ModalInfoRow>
 
-          <ModalInfoRow>
-            <ModalText>Emissão e Envio: </ModalText>
-            <ModalText>{formatMonthDate(emissionDate)}</ModalText>
-          </ModalInfoRow>
-        </ModalInfoBlock>
+            <ModalInfoRow>
+              <ModalText>Limite total: </ModalText>
+              <NumberFormat
+                value={totalLimit}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => <ModalText>R$ {number}</ModalText>}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+            </ModalInfoRow>
 
-        <ModalInfoBlock>
-          <ModalInfoRow>
-            <ModalText>Pagamento mínimo: </ModalText>
-            <NumberFormat
-              value={minimumPaymentValue}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => (
-                <ModalTextBold>R$ {number}</ModalTextBold>
-              )}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </ModalInfoRow>
-
-          <ModalInfoRow>
-            <ModalText>Limite total: </ModalText>
-            <NumberFormat
-              value={totalLimit}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => <ModalText>R$ {number}</ModalText>}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </ModalInfoRow>
-
-          <ModalInfoRow>
-            <ModalText>Limite de saque total: </ModalText>
-            <NumberFormat
-              value={totalWithdrawLimit}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => <ModalText>R$ {number}</ModalText>}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </ModalInfoRow>
-        </ModalInfoBlock>
+            <ModalInfoRow>
+              <ModalText>Limite de saque total: </ModalText>
+              <NumberFormat
+                value={totalWithdrawLimit}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => <ModalText>R$ {number}</ModalText>}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+            </ModalInfoRow>
+          </ModalInfoBlock>
+        )}
 
         <ModalInfoBlock>
           <ModalTextBold>Juros rotativo:</ModalTextBold>

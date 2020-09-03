@@ -35,7 +35,7 @@ export const ModalTitle = styled.Text`
 export const ModalContent = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
 })`
-  margin: 10px 20px 20px 20px;
+  margin: 10px 20px 20px 32px;
   background-color: #fff;
   flex: 1;
   padding-bottom: 36px;
@@ -53,13 +53,18 @@ export const ModalWebContainer = styled.View`
   left: 4%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.49);
 
-  ${(props: { mobile?: boolean }) =>
+  ${(props: { mobile?: boolean; modalType?: string }) =>
     props.mobile &&
     `
     position: relative;
     top: 0;
     left: 0;
     width: auto;
+  `};
+  ${(props: { mobile?: boolean; modalType?: string }) =>
+    props.modalType === 'beneficiary' &&
+    `
+    min-height: 430px;
   `};
 `;
 
@@ -71,7 +76,10 @@ export const Title = styled.Text`
 `;
 
 export const ModalText = styled.Text`
-  font-family: 'NunitoSans-Regular';
+  font-family: ${(props: { modalType?: string }) =>
+    props.modalType === 'beneficiary'
+      ? 'NunitoSans-Bold'
+      : 'NunitoSans-Regular'};
   font-size: 15px;
   color: #727272;
 `;

@@ -394,6 +394,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
       </Container>
       {data.billDetails && (
         <DetailsModal
+          modalType="account"
           isOpen={modalOpen}
           title="Detalhes da conta"
           titleColor={baseColor}
