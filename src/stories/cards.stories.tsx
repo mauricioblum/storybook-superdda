@@ -1,28 +1,29 @@
 import * as React from 'react';
 
 import { Meta, Story } from '@storybook/react/types-6-0';
+import { Card, CardProps } from '../components/Card';
+import { FeaturedCard, FeaturedCardType } from '../components/FeaturedCard';
 import {
-  Card,
-  CardProps,
-} from '../components/Card';
-import {
-  FeaturedCard, 
-  FeaturedCardType,
-} from '../components/FeaturedCard';
-import { BeneficiaryCard as BeneficiaryCardComponent, BeneficiaryCardProps } from '../components/BeneficiaryCard';
+  BeneficiaryCard as BeneficiaryCardComponent,
+  BeneficiaryCardProps,
+} from '../components/BeneficiaryCard';
 
 export default {
   title: 'SuperDDA/Cards',
   component: Card,
   argTypes: {
-    dueDate: {control: 'date'},
-    barColor: { control: 'color'},
+    dueDate: { control: 'date' },
+    barColor: { control: 'color' },
   },
 } as Meta;
 
 const Template: Story<CardProps> = (args) => <Card {...args} />;
-const TemplateFeatured: Story<FeaturedCardType> = (args) => <FeaturedCard {...args} />;
-const TemplateBeneficiary: Story<BeneficiaryCardProps> = (args) => <BeneficiaryCardComponent {...args} />;
+const TemplateFeatured: Story<FeaturedCardType> = (args) => (
+  <FeaturedCard {...args} />
+);
+const TemplateBeneficiary: Story<BeneficiaryCardProps> = (args) => (
+  <BeneficiaryCardComponent {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -47,7 +48,7 @@ NetflixCard.args = {
   value: 50,
   isDue: false,
   isPaid: false,
-}
+};
 
 export const LightBillCard = Template.bind({});
 LightBillCard.args = {
@@ -61,15 +62,16 @@ LightBillCard.args = {
   isDue: false,
   isPaid: false,
   lightBillFlagStatus: 'yellow',
-}
+};
 
 export const CardFeatured = TemplateFeatured.bind({});
 CardFeatured.storyName = 'Featured Card';
 CardFeatured.argTypes = {
-    featuredBgColor: { control: 'color'},
-}
+  featuredBgColor: { control: 'color' },
+};
 CardFeatured.args = {
-  logo: 'https://logodownload.org/wp-content/uploads/2016/09/spotify-logo-6.png',
+  logo:
+    'https://logodownload.org/wp-content/uploads/2016/09/spotify-logo-6.png',
   barColor: '#1dd15d',
   dueDate: new Date(),
   cnpj: '99.999.999.0001-99',
@@ -82,14 +84,14 @@ CardFeatured.args = {
   isDueText: 'Vencendo hoje',
   imageWidth: 77,
   imageHeight: 38,
-}
+};
 
 export const BeneficiaryCard = TemplateBeneficiary.bind({});
 BeneficiaryCard.args = {
   cnpj: '99.999.999.0001-99',
   cardTitle: 'CERJ',
-  cardTextColor:'#727272',
-  text: 'Débito automático no dia do vencimento',
+  cardTextColor: '#727272',
+  text: 'Pagamento automático no dia do vencimento',
   barColor: '#999',
   switchStyle: {
     backgroundActive: '#f9a06d',
@@ -99,9 +101,10 @@ BeneficiaryCard.args = {
   },
   limitValue: 300,
   limitValueText: 'Valor Limite',
-  logo: 'https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png',
+  logo:
+    'https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png',
   imageWidth: 30,
   imageHeight: 30,
   type: 'Account',
   isActive: true,
-}
+};

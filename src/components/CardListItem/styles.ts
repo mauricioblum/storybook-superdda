@@ -81,3 +81,12 @@ export const ValueText = styled.Text`
   line-height: 17px;
   text-align: right;
 `;
+
+export const PaidText = styled.Text`
+  font-family: 'NunitoSans-Bold';
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  text-align: left;
+  color: #8aa626;
+`;

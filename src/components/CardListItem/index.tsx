@@ -16,6 +16,7 @@ import {
   CardInfo,
   DueDateText,
   ValueText,
+  PaidText,
 } from './styles';
 
 export interface CardListItemProps {
@@ -35,6 +36,7 @@ export const CardListItem: React.FC<CardListItemProps> = ({
   dueDate,
   isDueTodayText = 'Vencendo hoje',
   value,
+  isPaid,
   logo,
   cardTitle,
   cardTitleColor,
@@ -101,6 +103,7 @@ export const CardListItem: React.FC<CardListItemProps> = ({
 
           <CardInfo>
             <DueDateText isDue={isDueToday}>{formattedDate}</DueDateText>
+            {isPaid === true && <PaidText>PAGO</PaidText>}
             <NumberFormat
               value={value}
               displayType="text"

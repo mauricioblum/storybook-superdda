@@ -7,15 +7,16 @@ import { Container } from './styles';
 
 export interface FeatureCardProps {
   featuredBgColor?: string;
+  containerStyle?: object;
 }
 
 export type FeaturedCardType = FeatureCardProps & CardProps;
 
 export const FeaturedCard: React.FC<FeaturedCardType> = (props) => {
-  const { featuredBgColor, onClickCard } = props;
+  const { featuredBgColor, onClickCard, containerStyle } = props;
 
   return (
-    <Container bgColor={featuredBgColor}>
+    <Container bgColor={featuredBgColor} style={containerStyle}>
       <TouchableOpacity activeOpacity={0.9} onPress={onClickCard}>
         <DefaultCard {...props} />
       </TouchableOpacity>
