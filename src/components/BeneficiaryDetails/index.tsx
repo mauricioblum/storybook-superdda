@@ -224,7 +224,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         <DetailsModal
           isOpen={modalOpen}
           modalType="beneficiary"
-          title="Detalhes da conta"
+          title="Detalhes do Beneficiário"
           titleColor={baseColor}
           onClickClose={() => setModalOpen(false)}
           companyName={data.companyName}

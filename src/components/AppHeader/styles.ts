@@ -13,7 +13,7 @@ export const Container = styled.View`
 export const AppTitle = styled.Text`
   font-family: 'NunitoSans-SemiBold';
   font-size: 15px;
-  color: #f78c49;
+  color: ${(props: { color?: string }) => props.color || '#f78c49'};
   margin-left: auto;
   margin-right: auto;
 `;

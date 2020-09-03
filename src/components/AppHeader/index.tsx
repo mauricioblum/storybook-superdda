@@ -5,6 +5,7 @@ import { SearchIcon, BarcodeIcon } from '../Icons';
 
 export interface AppHeaderProps {
   title: string;
+  titleColor?: string;
   onClickScanBarcode?(): void;
   onClickSearch?(): void;
   barcodeIcon?: JSX.Element;
@@ -13,6 +14,7 @@ export interface AppHeaderProps {
 
 export const AppHeader: React.FC<AppHeaderProps> = ({
   title,
+  titleColor,
   onClickScanBarcode,
   onClickSearch,
   barcodeIcon,
@@ -20,7 +22,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
   return (
     <Container>
-      <AppTitle>{title}</AppTitle>
+      <AppTitle color={titleColor}>{title}</AppTitle>
       <AppButtonsWrapper>
         <AppButton onPress={onClickScanBarcode} style={{ marginRight: 2 }}>
           {barcodeIcon || <BarcodeIcon />}
