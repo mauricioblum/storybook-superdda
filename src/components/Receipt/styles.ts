@@ -16,19 +16,18 @@ export const Header = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 15px 0px 0px 0px;
 `;
 
-export const BackButton = styled.TouchableOpacity`
-  margin-right: auto;
-`;
+export const BackButton = styled.TouchableOpacity``;
+
+export const OptionsButton = styled.TouchableOpacity``;
 
 export const HeaderTitle = styled.Text`
   font-family: 'NunitoSans-SemiBold';
   font-size: 15px;
   color: #727272;
-  margin-right: auto;
 `;
 
 export const Content = styled.View`

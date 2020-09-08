@@ -136,6 +136,7 @@ export const CopyButton = styled.TouchableOpacity``;
 
 export const BarCodeValue = styled(BarCodeTitle)`
   font-size: 13px;
+  white-space: nowrap;
 `;
 
 export const AccountTypeText = styled.Text`

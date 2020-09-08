@@ -243,7 +243,10 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
               thousandSeparator="."
               decimalSeparator=","
               renderText={(number) => (
-                <ValueTitle>Valor R$ {number}</ValueTitle>
+                <InfoBlock>
+                  <ValueTitle>Valor: </ValueTitle>
+                  <ValueTitleBold>R$ {number}</ValueTitleBold>
+                </InfoBlock>
               )}
               decimalScale={2}
               fixedDecimalScale
@@ -256,22 +259,20 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
               thousandSeparator="."
               decimalSeparator=","
               renderText={(number) => (
-                <ValueTitle>Pagamento Mínimo R$ {number}</ValueTitle>
+                <InfoBlock>
+                  <ValueTitle>Pagamento Mínimo: </ValueTitle>
+                  <ValueTitleBold>R$ {number}</ValueTitleBold>
+                </InfoBlock>
               )}
               decimalScale={2}
               fixedDecimalScale
             />
           </InfoBlock>
           <InfoBlock>
-            <ValueTitle>
-              Vencimento: {formatFullDate(data.billDetails.dueDate)}
-            </ValueTitle>
-          </InfoBlock>
-
-          <InfoBlock>
-            <ValueTitle>
-              Emissão e Envio: {formatFullDate(data.billDetails.emissionDate)}
-            </ValueTitle>
+            <ValueTitle>Vencimento: </ValueTitle>
+            <ValueTitleBold>
+              {formatFullDate(data.billDetails.dueDate)}
+            </ValueTitleBold>
           </InfoBlock>
         </BlockView>
 
@@ -306,7 +307,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
             withShadow={false}
             xLabelsOffset={-20}
             fromZero
-            style={{ paddingRight: -30 }}
+            // style={{ paddingRight: -30 }}
           />
           <ChartLegendBottom baseColor={baseColor}>
             <ChartLegendBottomText baseColor={baseColor}>

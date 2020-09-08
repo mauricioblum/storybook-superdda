@@ -64,7 +64,10 @@ export const CardTitle = styled.Text<{ color?: string }>`
   margin-bottom: 10px;
 `;
 
-export const CardInfo = styled.View``;
+export const CardInfo = styled.View`
+  display: flex;
+  align-items: flex-end;
+`;
 
 export const DueDateText = styled.Text<CustomProps>`
   font-family: ${(props): string =>

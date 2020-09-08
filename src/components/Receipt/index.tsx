@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import NumberFormat from 'react-number-format';
-import { ChevronLeft } from '../Icons';
+import { ChevronLeft, MoreVertical } from '../Icons';
 import {
   Container,
   Header,
@@ -13,6 +13,7 @@ import {
   BarcodeValue,
   ShareReceiptButton,
   ShareReceiptButtonText,
+  OptionsButton,
 } from './styles';
 import { formatDateWithBars } from '../utils/formatDate';
 
@@ -46,6 +47,8 @@ export interface ReceiptProps {
 
   onClickBack?(): void;
 
+  onClickOptions?(): void;
+
   onClickShareReceipt?(): void;
 }
 
@@ -64,6 +67,7 @@ export const Receipt: React.FC<ReceiptProps> = ({
   dueDate,
   baseColor,
   onClickBack,
+  onClickOptions,
   onClickShareReceipt,
 }) => {
   const handleClickShareReceipt = useCallback(() => {
@@ -85,6 +89,9 @@ export const Receipt: React.FC<ReceiptProps> = ({
           <ChevronLeft />
         </BackButton>
         <HeaderTitle>COMPROVANTE</HeaderTitle>
+        <OptionsButton onPress={onClickOptions}>
+          <MoreVertical />
+        </OptionsButton>
       </Header>
       <Content>
         <BlockView>

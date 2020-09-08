@@ -46,14 +46,6 @@ AutomaticDebit.args = {
   chartWidth: 414,
   chartData: [
     {
-      label: 'Dez',
-      value: 1000,
-    },
-    {
-      label: 'Jan',
-      value: 1200,
-    },
-    {
       label: 'Fev',
       value: 950,
     },
@@ -73,6 +65,10 @@ AutomaticDebit.args = {
       label: 'Jun',
       value: 1300,
     },
+    {
+      label: 'Jul',
+      value: 1500,
+    },
   ],
   data: {
     companyLogo:
@@ -89,7 +85,7 @@ AutomaticDebit.args = {
     cardHolderName: 'Roberto de Oliveira Santos',
     paymentHistory,
     billDetails: {
-      barCode: '34191090654483012854014190680000183120000059475',
+      barCode: '34191.09065 44830. 1285 40141.906 8 00001.83120.59475',
       billDate: '2020-06',
       dueDate: new Date('2020-06-19T23:00:00.000Z'),
       emissionDate: new Date('2020-06-06T23:00:00.000Z'),
