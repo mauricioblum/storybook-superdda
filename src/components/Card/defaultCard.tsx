@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import NumberFormat from 'react-number-format';
-import { MailIcon, UserCheck, UserX } from '../Icons';
+import { MailIcon, UserCheck, UserX, LockIcon } from '../Icons';
 import { formatDate } from '../utils/formatDate';
 import {
   Container,
@@ -21,6 +21,8 @@ import {
   ValueText,
   BetweenRow,
   PaidText,
+  Shimmer,
+  LockedText,
 } from './styles';
 
 import { CardProps } from '.';
@@ -43,6 +45,7 @@ export const DefaultCard: React.FC<CardProps> = ({
   logo,
   imageWidth,
   imageHeight,
+  isLocked,
 }) => {
   const logoStyle = {
     width: imageWidth || 90,
@@ -59,43 +62,75 @@ export const DefaultCard: React.FC<CardProps> = ({
       <Content>
         <CardHeader>
           <CardTitleContainer>
-            {logo && (
-              <Logo
-                style={logoStyle}
-                source={{ uri: logo }}
-                resizeMode="contain"
-                resizeMethod="resize"
-              />
+            {isLocked ? (
+              <LockIcon size={32} />
+            ) : (
+              logo && (
+                <Logo
+                  style={logoStyle}
+                  source={{ uri: logo }}
+                  resizeMode="contain"
+                  resizeMethod="resize"
+                />
+              )
             )}
-            <CardTitle>{cardTitle}</CardTitle>
+            {isLocked ? (
+              <LockedText>Boleto protegido por senha</LockedText>
+            ) : (
+              <CardTitle>{cardTitle}</CardTitle>
+            )}
           </CardTitleContainer>
-          <DueDateText isDue={isDue ? 1 : 0}>{formattedDate}</DueDateText>
+          {isLocked ? (
+            <Shimmer size="30px" />
+          ) : (
+            <DueDateText isDue={isDue ? 1 : 0}>{formattedDate}</DueDateText>
+          )}
         </CardHeader>
         <CardBody>
-          <BetweenRow>
-            {cnpj && <CnpjText>CNPJ: {cnpj}</CnpjText>}
-            {isPaid === true && <PaidText>PAGO</PaidText>}
-          </BetweenRow>
-          <CardText style={{ color: textColor }}>{text}</CardText>
+          {isLocked ? (
+            <>
+              <BetweenRow>
+                <Shimmer size="70px" />
+              </BetweenRow>
+              <Shimmer size="90px" />
+            </>
+          ) : (
+            <>
+              <BetweenRow>
+                {cnpj && <CnpjText>CNPJ: {cnpj}</CnpjText>}
+                {isPaid === true && <PaidText>PAGO</PaidText>}
+              </BetweenRow>
+              <CardText style={{ color: textColor }}>{text}</CardText>
+            </>
+          )}
           {children}
         </CardBody>
         <CardFooter>
-          <CardIcons>
-            {isFromMail && <MailIcon />}
-            {isUserAdded ? <UserCheck /> : <UserX />}
-          </CardIcons>
-          <CardValue>
-            <CurrencyText>R$</CurrencyText>
-            <NumberFormat
-              value={value}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => <ValueText>{number}</ValueText>}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </CardValue>
+          {isLocked ? (
+            <>
+              <Shimmer />
+              <Shimmer size="20px" />
+            </>
+          ) : (
+            <>
+              <CardIcons>
+                {isFromMail && <MailIcon />}
+                {isUserAdded ? <UserCheck /> : <UserX />}
+              </CardIcons>
+              <CardValue>
+                <CurrencyText>R$</CurrencyText>
+                <NumberFormat
+                  value={value}
+                  displayType="text"
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  renderText={(number) => <ValueText>{number}</ValueText>}
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
+              </CardValue>
+            </>
+          )}
         </CardFooter>
       </Content>
     </Container>

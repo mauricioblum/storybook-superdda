@@ -48,7 +48,7 @@ export const LogoWrapper = styled.View`
   width: 70px;
   height: 50px;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 export const Logo = styled.Image`
@@ -61,7 +61,6 @@ export const CardTitle = styled.Text<{ color?: string }>`
   font-size: 12px;
   color: ${(props) => props.color || '#707070'};
   margin-left: 5px;
-  margin-bottom: 10px;
 `;
 
 export const CardInfo = styled.View`
@@ -92,4 +91,17 @@ export const PaidText = styled.Text`
   line-height: 16px;
   text-align: left;
   color: #8aa626;
+`;
+
+export const LockedContainer = styled.View`
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+`;
+
+export const Shimmer = styled.View<{ size?: string }>`
+  height: 12px;
+  width: ${(props) => props.size || '50px'};
+  background: #7a7a7b;
+  opacity: 0.6;
 `;

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Image } from 'react-native';
 import NumberFormat from 'react-number-format';
 import { format, isToday } from 'date-fns';
@@ -17,18 +17,22 @@ import {
   DueDateText,
   ValueText,
   PaidText,
+  LockedContainer,
+  Shimmer,
 } from './styles';
+import { LockIcon } from '../Icons';
 
 export interface CardListItemProps {
-  dueDate: Date;
+  dueDate?: Date;
   isDueTodayText?: string;
-  value: number;
+  value?: number;
   logo?: string;
   barColor?: string;
   isPaid?: boolean;
   cardTitle?: string;
   cardTitleColor?: string;
   onCardClick?: () => void;
+  isLocked?: boolean;
 }
 
 export const CardListItem: React.FC<CardListItemProps> = ({
@@ -41,32 +45,56 @@ export const CardListItem: React.FC<CardListItemProps> = ({
   cardTitle,
   cardTitleColor,
   onCardClick,
+  isLocked,
 }) => {
   const [logoWidth, setLogoWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
 
   const isDueToday = useMemo(() => {
-    return isToday(dueDate);
+    return dueDate && isToday(dueDate);
   }, [dueDate]);
 
+  const renderCardTitle = useCallback(
+    (
+      cardTitleColor: string | undefined,
+      cardTitle: string | undefined,
+      isLocked?: boolean,
+    ) => {
+      if (isLocked) {
+        return (
+          <CardTitle color="#e50914" style={{ marginLeft: -15 }}>
+            Boleto protegido por senha
+          </CardTitle>
+        );
+      } else if (cardTitle) {
+        return <CardTitle color={cardTitleColor}>{cardTitle}</CardTitle>;
+      }
+      return null;
+    },
+    [],
+  );
+
   const formattedDate = useMemo(() => {
-    const weekDay = format(dueDate, "EEEE',' ", {
-      locale: ptBR,
-    });
+    if (dueDate) {
+      const weekDay = format(dueDate, "EEEE',' ", {
+        locale: ptBR,
+      });
 
-    const dayOfMonth = format(dueDate, 'dd MMM', {
-      locale: ptBR,
-    });
+      const dayOfMonth = format(dueDate, 'dd MMM', {
+        locale: ptBR,
+      });
 
-    if (isDueToday) {
-      return `${isDueTodayText}, ${dayOfMonth.toUpperCase()}`;
+      if (isDueToday) {
+        return `${isDueTodayText}, ${dayOfMonth.toUpperCase()}`;
+      }
+
+      return (
+        weekDay.charAt(0).toUpperCase() +
+        weekDay.slice(1) +
+        dayOfMonth.toUpperCase()
+      );
     }
-
-    return (
-      weekDay.charAt(0).toUpperCase() +
-      weekDay.slice(1) +
-      dayOfMonth.toUpperCase()
-    );
+    return null;
   }, [dueDate, isDueToday, isDueTodayText]);
 
   useEffect(() => {
@@ -89,30 +117,42 @@ export const CardListItem: React.FC<CardListItemProps> = ({
         <CardRow>
           <LogoSection>
             <LogoWrapper>
-              <Logo
-                style={{ width: logoWidth, height: logoHeight }}
-                source={{ uri: logo }}
-                resizeMode="contain"
-                resizeMethod="resize"
-              />
+              {isLocked ? (
+                <LockIcon size={32} />
+              ) : (
+                <Logo
+                  style={{ width: logoWidth, height: logoHeight }}
+                  source={{ uri: logo }}
+                  resizeMode="contain"
+                  resizeMethod="resize"
+                />
+              )}
             </LogoWrapper>
-            {cardTitle && (
-              <CardTitle color={cardTitleColor}>{cardTitle}</CardTitle>
-            )}
+            {renderCardTitle(cardTitleColor, cardTitle, isLocked)}
           </LogoSection>
 
           <CardInfo>
-            <DueDateText isDue={isDueToday}>{formattedDate}</DueDateText>
-            {isPaid === true && <PaidText>PAGO</PaidText>}
-            <NumberFormat
-              value={value}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => <ValueText>R$ {number}</ValueText>}
-              decimalScale={2}
-              fixedDecimalScale
-            />
+            {isLocked ? (
+              <LockedContainer>
+                <Shimmer style={{ marginBottom: 4 }} />
+                <Shimmer size="30px" style={{ marginBottom: 4 }} />
+                <Shimmer size="60px" />
+              </LockedContainer>
+            ) : (
+              <>
+                <DueDateText isDue={isDueToday}>{formattedDate}</DueDateText>
+                {isPaid === true && <PaidText>PAGO</PaidText>}
+                <NumberFormat
+                  value={value}
+                  displayType="text"
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  renderText={(number) => <ValueText>R$ {number}</ValueText>}
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
+              </>
+            )}
           </CardInfo>
         </CardRow>
       </Content>

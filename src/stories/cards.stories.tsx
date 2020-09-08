@@ -108,3 +108,8 @@ BeneficiaryCard.args = {
   type: 'Account',
   isActive: true,
 };
+
+export const LockedCard = Template.bind({});
+LockedCard.args = {
+  isLocked: true,
+};

@@ -47,6 +47,12 @@ Default.args = {
         'https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png',
       value: 11000,
     },
+    {
+      barColor: '#e30613',
+      logo:
+        'https://upload.wikimedia.org/wikipedia/commons/a/a3/Novo_renner.png',
+      isLocked: true,
+    },
   ],
   featured: true,
   featuredBackgroundColor: '#f78c49',

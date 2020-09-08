@@ -35,10 +35,15 @@ export const CardList: React.FC<CardListProps> = ({
 
   const totalPaymentValue = useMemo(() => {
     if (totalDueOnly) {
-      const cardsDueOnly = cards.filter((card) => isToday(card.dueDate));
-      return cardsDueOnly.reduce((acc, { value }) => acc + value, 0);
+      const cardsDueOnly = cards.filter(
+        (card) => card.dueDate && isToday(card.dueDate),
+      );
+      return cardsDueOnly.reduce(
+        (acc, { value }) => (value ? acc + value : acc),
+        0,
+      );
     }
-    return cards.reduce((acc, { value }) => acc + value, 0);
+    return cards.reduce((acc, { value }) => (value ? acc + value : acc), 0);
   }, [cards, totalDueOnly]);
 
   return (
@@ -53,6 +58,7 @@ export const CardList: React.FC<CardListProps> = ({
           isPaid={card.isPaid}
           cardTitle={card.cardTitle}
           cardTitleColor={card.cardTitleColor}
+          isLocked={card.isLocked}
         />
       ))}
       {showTotal && (

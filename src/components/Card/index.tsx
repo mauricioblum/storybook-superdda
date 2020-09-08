@@ -26,6 +26,7 @@ export interface CardProps {
   lightBillFlagStatus?: 'green' | 'yellow' | 'red';
   imageWidth?: number;
   imageHeight?: number;
+  isLocked?: boolean;
   onClickCard?(): void;
 }
 

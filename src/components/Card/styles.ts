@@ -137,3 +137,18 @@ export const ValueText = styled.Text`
   text-align: right;
   color: #7a7a7b;
 `;
+
+export const Shimmer = styled.View<{ size?: string }>`
+  height: 12px;
+  width: ${(props) => props.size || '50px'};
+  background: #7a7a7b;
+  opacity: 0.6;
+`;
+
+export const LockedText = styled.Text`
+  font-family: 'NunitoSans-Bold';
+  font-size: 14px;
+  color: #e50401;
+  margin-left: 10px;
+  line-height: 17px;
+`;
