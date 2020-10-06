@@ -59,6 +59,7 @@ export const CardList: React.FC<CardListProps> = ({
           cardTitle={card.cardTitle}
           cardTitleColor={card.cardTitleColor}
           isLocked={card.isLocked}
+          onCardClick={card.onCardClick}
         />
       ))}
       {showTotal && (

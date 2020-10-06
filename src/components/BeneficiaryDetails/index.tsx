@@ -110,7 +110,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         ? data.paymentHistory.reverse()
         : [...data.paymentHistory];
     }
-    return [];
+    return null;
   }, [data.paymentHistory, historyReverse]);
 
   const formatDate = useCallback((date: string) => {
@@ -186,39 +186,41 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           </BlockView>
         )}
 
-        <PaymentHistoryContainer>
-          <PaymentHistoryRow>
-            <PaymentHistoryIcon />
-            <PaymentHistoryTitle>Histórico de Pagamentos</PaymentHistoryTitle>
-          </PaymentHistoryRow>
+        {paymentHistory && (
+          <PaymentHistoryContainer>
+            <PaymentHistoryRow>
+              <PaymentHistoryIcon />
+              <PaymentHistoryTitle>Histórico de Pagamentos</PaymentHistoryTitle>
+            </PaymentHistoryRow>
 
-          <PaymentHistoryData>
-            {paymentHistory.map((item) => (
-              <PaymentHistoryItem key={item.date}>
-                <PaymentMonthWrapper>
-                  <PaymentMonth>{formatDate(item.date)}</PaymentMonth>
-                  {item.isOpen && (
-                    <PaymentOpenStatus>em aberto</PaymentOpenStatus>
-                  )}
-                </PaymentMonthWrapper>
-                <PaymentValueInfo>
-                  <PaymentCurrency>R$ </PaymentCurrency>
-                  <NumberFormat
-                    value={item.value}
-                    displayType="text"
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    renderText={(number) => (
-                      <PaymentValue>{number}</PaymentValue>
+            <PaymentHistoryData>
+              {paymentHistory.map((item) => (
+                <PaymentHistoryItem key={item.date}>
+                  <PaymentMonthWrapper>
+                    <PaymentMonth>{formatDate(item.date)}</PaymentMonth>
+                    {item.isOpen && (
+                      <PaymentOpenStatus>em aberto</PaymentOpenStatus>
                     )}
-                    decimalScale={2}
-                    fixedDecimalScale
-                  />
-                </PaymentValueInfo>
-              </PaymentHistoryItem>
-            ))}
-          </PaymentHistoryData>
-        </PaymentHistoryContainer>
+                  </PaymentMonthWrapper>
+                  <PaymentValueInfo>
+                    <PaymentCurrency>R$ </PaymentCurrency>
+                    <NumberFormat
+                      value={item.value}
+                      displayType="text"
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      renderText={(number) => (
+                        <PaymentValue>{number}</PaymentValue>
+                      )}
+                      decimalScale={2}
+                      fixedDecimalScale
+                    />
+                  </PaymentValueInfo>
+                </PaymentHistoryItem>
+              ))}
+            </PaymentHistoryData>
+          </PaymentHistoryContainer>
+        )}
       </Container>
       {data.billDetails && (
         <DetailsModal

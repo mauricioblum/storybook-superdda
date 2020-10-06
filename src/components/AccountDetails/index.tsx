@@ -64,7 +64,7 @@ export interface BillDetails {
   value: number;
   dueDate: Date;
   emissionDate: Date;
-  minimumPaymentValue: number;
+  minimumPaymentValue?: number;
   totalLimitValue: number;
   totalWithdrawLimitValue: number;
   interestRate: number;
@@ -102,7 +102,7 @@ export interface AccountDetailsProps {
   /** Data to be displayed on screen */
   data: AccountDetailsInfoProps;
   /** Data to be displayed on screen */
-  chartData: ChartData[];
+  chartData?: ChartData[];
   /** Chart legend of the chart */
   chartLegend?: string;
   /** Chart data text to be displayed below the chart */
@@ -113,6 +113,10 @@ export interface AccountDetailsProps {
   chartWidth?: number;
   /** Check if the account PDF is available */
   pdfAvailable?: boolean;
+  /** Enable or disable payment history */
+  paymentHistoryEnabled?: boolean;
+  /** Ignore action buttons and elements and insert any custom ones */
+  customElements?: JSX.Element;
   onClickBack?: () => void;
   onClickOptions?: () => void;
   onClickViewAccountDetails?: () => void;
@@ -145,10 +149,16 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
   chartWidth,
   pdfAvailable,
   onSwitchAutoPaymentChange,
+  paymentHistoryEnabled = true,
+  customElements,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const formattedChartData = useMemo(() => {
+    if (!chartData || chartData.length === 0) {
+      return null;
+    }
+
     return {
       labels: chartData.map((cData) => cData.label),
       datasets: [
@@ -225,9 +235,11 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
           <InfoBlock>
             <ValueTitle>CNPJ: {data.cnpj}</ValueTitle>
           </InfoBlock>
-          <InfoBlock>
-            <ValueTitle>Cartão {data.cardNumber}</ValueTitle>
-          </InfoBlock>
+          {data.cardNumber && (
+            <InfoBlock>
+              <ValueTitle>Cartão {data.cardNumber}</ValueTitle>
+            </InfoBlock>
+          )}
         </BlockView>
 
         <BlockView>
@@ -252,22 +264,24 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
               fixedDecimalScale
             />
           </InfoBlock>
-          <InfoBlock>
-            <NumberFormat
-              value={data.billDetails.minimumPaymentValue}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => (
-                <InfoBlock>
-                  <ValueTitle>Pagamento Mínimo: </ValueTitle>
-                  <ValueTitleBold>R$ {number}</ValueTitleBold>
-                </InfoBlock>
-              )}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </InfoBlock>
+          {data.billDetails.minimumPaymentValue && (
+            <InfoBlock>
+              <NumberFormat
+                value={data.billDetails.minimumPaymentValue}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => (
+                  <InfoBlock>
+                    <ValueTitle>Pagamento Mínimo: </ValueTitle>
+                    <ValueTitleBold>R$ {number}</ValueTitleBold>
+                  </InfoBlock>
+                )}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+            </InfoBlock>
+          )}
           <InfoBlock>
             <ValueTitle>Vencimento: </ValueTitle>
             <ValueTitleBold>
@@ -291,107 +305,123 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
           <BarCodeValue>{data.billDetails.barCode}</BarCodeValue>
         </BlockView>
 
-        <ChartView>
-          <ChartLegend baseColor={baseColor}>
-            <ChartLegendText>{chartLegend}</ChartLegendText>
-          </ChartLegend>
-          <LineChart
-            data={formattedChartData}
-            bezier
-            width={chartWidth || screenWidth}
-            height={170}
-            chartConfig={chartConfig}
-            withVerticalLines={false}
-            withHorizontalLines={false}
-            withHorizontalLabels={false}
-            withShadow={false}
-            xLabelsOffset={-20}
-            fromZero
-            // style={{ paddingRight: -30 }}
-          />
-          <ChartLegendBottom baseColor={baseColor}>
-            <ChartLegendBottomText baseColor={baseColor}>
-              {chartDataText}
-            </ChartLegendBottomText>
-            <ChartLegendBottomText baseColor={baseColor}>
-              {chartDataValue}
-            </ChartLegendBottomText>
-          </ChartLegendBottom>
-        </ChartView>
-        <BlockView>
-          <PdfButton
-            disabled={!pdfAvailable}
-            hasDisabledStyle={!pdfAvailable}
-            baseColor={baseColor}
-            onPress={onClickViewPDF}
-          >
-            <PdfButtonText baseColor={pdfAvailable ? baseColor : '#fff'}>
-              {pdfAvailable ? 'PDF da conta' : 'PDF da conta não disponível'}
-            </PdfButtonText>
-          </PdfButton>
-        </BlockView>
-
-        {data.isAutomaticDebit ? (
-          <BlockView>
-            <AccountTypeText>
-              Conta em Débito automático{' '}
-              {data.automaticDebitBankName &&
-                `no ${data.automaticDebitBankName}`}
-            </AccountTypeText>
-          </BlockView>
-        ) : (
-          <BlockView>
-            <RowBetween>
-              <AutomaticPaymentText>
-                Pagamento automático no dia do vencimento
-              </AutomaticPaymentText>
-              <CustomSwitch
-                value={paymentSwitch}
-                onValueChange={(val) => handleSwitchPaymentChange(val)}
-                backgroundActive={switchColors.backgroundActive}
-                backgroundInactive={switchColors.backgroundInactive}
-                circleActiveColor={switchColors.circleActiveColor}
-                circleInActiveColor={switchColors.circleInActiveColor}
-              />
-            </RowBetween>
-            <PaymentButtonView>
-              <PaymentButton
-                baseColor={baseColor}
-                onPress={onClickPaymentScheduleButton}
-              >
-                <PaymentButtonText baseColor={baseColor}>
-                  Pagar / Agendar
-                </PaymentButtonText>
-              </PaymentButton>
-            </PaymentButtonView>
-          </BlockView>
+        {formattedChartData && (
+          <ChartView>
+            <ChartLegend baseColor={baseColor}>
+              <ChartLegendText>{chartLegend}</ChartLegendText>
+            </ChartLegend>
+            <LineChart
+              data={formattedChartData}
+              bezier
+              width={chartWidth || screenWidth}
+              height={170}
+              chartConfig={chartConfig}
+              withVerticalLines={false}
+              withHorizontalLines={false}
+              withHorizontalLabels={false}
+              withShadow={false}
+              xLabelsOffset={-20}
+              fromZero
+              // style={{ paddingRight: -30 }}
+            />
+            <ChartLegendBottom baseColor={baseColor}>
+              <ChartLegendBottomText baseColor={baseColor}>
+                {chartDataText}
+              </ChartLegendBottomText>
+              <ChartLegendBottomText baseColor={baseColor}>
+                {chartDataValue}
+              </ChartLegendBottomText>
+            </ChartLegendBottom>
+          </ChartView>
         )}
 
-        <BlockView>
-          <ButtonsWrapper withMargin={data.isAutomaticDebit}>
-            <CustomButton baseColor={baseColor} onPress={onClickRejectAccount}>
-              <CustomButtonText baseColor={baseColor}>
-                Recusar a conta
-              </CustomButtonText>
-            </CustomButton>
+        {customElements ? (
+          customElements
+        ) : (
+          <>
+            <BlockView>
+              <PdfButton
+                disabled={!pdfAvailable}
+                hasDisabledStyle={!pdfAvailable}
+                baseColor={baseColor}
+                onPress={onClickViewPDF}
+              >
+                <PdfButtonText baseColor={pdfAvailable ? baseColor : '#fff'}>
+                  {pdfAvailable
+                    ? 'PDF da conta'
+                    : 'PDF da conta não disponível'}
+                </PdfButtonText>
+              </PdfButton>
+            </BlockView>
 
-            <CustomButtonRight
-              baseColor={baseColor}
-              onPress={handleViewAccountDetails}
-            >
-              <CustomButtonText baseColor={baseColor}>
-                Ver detalhes da conta
-              </CustomButtonText>
-            </CustomButtonRight>
-          </ButtonsWrapper>
+            {data.isAutomaticDebit ? (
+              <BlockView>
+                <AccountTypeText>
+                  Conta em Débito automático{' '}
+                  {data.automaticDebitBankName &&
+                    `no ${data.automaticDebitBankName}`}
+                </AccountTypeText>
+              </BlockView>
+            ) : (
+              <BlockView>
+                <RowBetween>
+                  <AutomaticPaymentText>
+                    Pagamento automático no dia do vencimento
+                  </AutomaticPaymentText>
+                  <CustomSwitch
+                    value={paymentSwitch}
+                    onValueChange={(val) => handleSwitchPaymentChange(val)}
+                    backgroundActive={switchColors.backgroundActive}
+                    backgroundInactive={switchColors.backgroundInactive}
+                    circleActiveColor={switchColors.circleActiveColor}
+                    circleInActiveColor={switchColors.circleInActiveColor}
+                  />
+                </RowBetween>
+                <PaymentButtonView>
+                  <PaymentButton
+                    baseColor={baseColor}
+                    onPress={onClickPaymentScheduleButton}
+                  >
+                    <PaymentButtonText baseColor={baseColor}>
+                      Pagar / Agendar
+                    </PaymentButtonText>
+                  </PaymentButton>
+                </PaymentButtonView>
+              </BlockView>
+            )}
 
-          <PaymentHistoryLink>
-            <PaymentHistoryIcon />
-            <PaymentHistoryLinkText>
-              HISTÓRICO DE PAGAMENTOS
-            </PaymentHistoryLinkText>
-          </PaymentHistoryLink>
-        </BlockView>
+            <BlockView>
+              <ButtonsWrapper withMargin={data.isAutomaticDebit}>
+                <CustomButton
+                  baseColor={baseColor}
+                  onPress={onClickRejectAccount}
+                >
+                  <CustomButtonText baseColor={baseColor}>
+                    Recusar a conta
+                  </CustomButtonText>
+                </CustomButton>
+
+                <CustomButtonRight
+                  baseColor={baseColor}
+                  onPress={handleViewAccountDetails}
+                >
+                  <CustomButtonText baseColor={baseColor}>
+                    Ver detalhes da conta
+                  </CustomButtonText>
+                </CustomButtonRight>
+              </ButtonsWrapper>
+
+              {paymentHistoryEnabled && (
+                <PaymentHistoryLink>
+                  <PaymentHistoryIcon />
+                  <PaymentHistoryLinkText>
+                    HISTÓRICO DE PAGAMENTOS
+                  </PaymentHistoryLinkText>
+                </PaymentHistoryLink>
+              )}
+            </BlockView>
+          </>
+        )}
       </Container>
       {data.billDetails && (
         <DetailsModal
