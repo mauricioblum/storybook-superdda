@@ -292,7 +292,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
 
         <BlockView>
           <Row>
-            <BarCodeTitle>Código de Barras:</BarCodeTitle>
+            <BarCodeTitle numberOfLines={1}>Código de Barras:</BarCodeTitle>
             <CopyButton
               onPress={() =>
                 onClickCopyBarcode &&
@@ -336,7 +336,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
         )}
 
         {customElements ? (
-          customElements
+          <>{customElements}</>
         ) : (
           <>
             <BlockView>
