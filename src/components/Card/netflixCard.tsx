@@ -55,12 +55,14 @@ export const NetflixCard: React.FC<CardProps> = ({
       <Content>
         <CardHeader>
           <NetflixLogo />
-          <DueDateText isDue={isDue ? 1 : 0}>{formattedDate}</DueDateText>
+          <DueDateText accessibilityLabel="dueDate" isDue={isDue ? 1 : 0}>
+            {formattedDate}
+          </DueDateText>
         </CardHeader>
         <CardBody>
           <BetweenRow>
-            {cnpj && <CnpjText>CNPJ: {cnpj}</CnpjText>}
-            {isPaid === true && <PaidText>PAGO</PaidText>}
+            {cnpj && <CnpjText testID="cnpj">CNPJ: {cnpj}</CnpjText>}
+            {isPaid === true && <PaidText testID="paid">PAGO</PaidText>}
           </BetweenRow>
           <CardText>{text}</CardText>
           {children}

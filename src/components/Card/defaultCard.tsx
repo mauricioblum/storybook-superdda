@@ -67,6 +67,7 @@ export const DefaultCard: React.FC<CardProps> = ({
             ) : (
               logo && (
                 <Logo
+                  testID="cardLogo"
                   style={logoStyle}
                   source={{ uri: logo }}
                   resizeMode="contain"
@@ -75,30 +76,34 @@ export const DefaultCard: React.FC<CardProps> = ({
               )
             )}
             {isLocked ? (
-              <LockedText>Boleto protegido por senha</LockedText>
+              <LockedText testID="lockedText">
+                Boleto protegido por senha
+              </LockedText>
             ) : (
               <CardTitle>{cardTitle}</CardTitle>
             )}
           </CardTitleContainer>
           {isLocked ? (
-            <Shimmer size="30px" />
+            <Shimmer testID="shimmer" size="30px" />
           ) : (
-            <DueDateText isDue={isDue ? 1 : 0}>{formattedDate}</DueDateText>
+            <DueDateText accessibilityLabel="dueDate" isDue={isDue ? 1 : 0}>
+              {formattedDate}
+            </DueDateText>
           )}
         </CardHeader>
         <CardBody>
           {isLocked ? (
             <>
               <BetweenRow>
-                <Shimmer size="70px" />
+                <Shimmer testID="shimmer" size="70px" />
               </BetweenRow>
-              <Shimmer size="90px" />
+              <Shimmer testID="shimmer" size="90px" />
             </>
           ) : (
             <>
               <BetweenRow>
-                {cnpj && <CnpjText>CNPJ: {cnpj}</CnpjText>}
-                {isPaid === true && <PaidText>PAGO</PaidText>}
+                {cnpj && <CnpjText testID="cnpj">CNPJ: {cnpj}</CnpjText>}
+                {isPaid === true && <PaidText testID="paid">PAGO</PaidText>}
               </BetweenRow>
               <CardText style={{ color: textColor }}>{text}</CardText>
             </>

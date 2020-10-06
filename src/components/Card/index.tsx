@@ -28,31 +28,48 @@ export interface CardProps {
   imageHeight?: number;
   isLocked?: boolean;
   onClickCard?(): void;
+  testID?: string;
 }
 
 export const Card: React.FC<CardProps> = (props) => {
   switch (props.type) {
     case 'netflix':
       return (
-        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+        <TouchableOpacity
+          testID="netflixCard"
+          activeOpacity={0.9}
+          onPress={props.onClickCard}
+        >
           <NetflixCard {...props} />
         </TouchableOpacity>
       );
     case 'lightBill':
       return (
-        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+        <TouchableOpacity
+          testID="lightBillCard"
+          activeOpacity={0.9}
+          onPress={props.onClickCard}
+        >
           <LightBillCard {...props} />
         </TouchableOpacity>
       );
     case 'default':
       return (
-        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+        <TouchableOpacity
+          testID="defaultCard"
+          activeOpacity={0.9}
+          onPress={props.onClickCard}
+        >
           <DefaultCard {...props} />
         </TouchableOpacity>
       );
     default:
       return (
-        <TouchableOpacity activeOpacity={0.9} onPress={props.onClickCard}>
+        <TouchableOpacity
+          testID="defaultCard"
+          activeOpacity={0.9}
+          onPress={props.onClickCard}
+        >
           <DefaultCard {...props} />
         </TouchableOpacity>
       );

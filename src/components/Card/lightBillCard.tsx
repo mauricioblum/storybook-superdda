@@ -37,7 +37,7 @@ export const LightBillCard: React.FC<CardProps> = ({
   dueDate,
   cnpj,
   text,
-  barColor = '#8aa626',
+  barColor,
   isDue,
   isDueText = 'Vencendo hoje',
   containerStyle,
@@ -62,17 +62,19 @@ export const LightBillCard: React.FC<CardProps> = ({
 
   return (
     <Container style={containerStyle}>
-      <Bar color={barColor} />
+      <Bar testID="barColor" color={barColor || getFlagColor()} />
       <Content>
         <CardHeader>
           {/* <Logo style={logoStyle} source={lightbulb} resizeMode="contain" /> */}
           <LightBulb size={38} />
-          <DueDateText isDue={isDue ? 1 : 0}>{formattedDate}</DueDateText>
+          <DueDateText accessibilityLabel="dueDate" isDue={isDue ? 1 : 0}>
+            {formattedDate}
+          </DueDateText>
         </CardHeader>
         <CardBody>
           <BetweenRow>
-            {cnpj && <CnpjText>CNPJ: {cnpj}</CnpjText>}
-            {isPaid === true && <PaidText>PAGO</PaidText>}
+            {cnpj && <CnpjText testID="cnpj">CNPJ: {cnpj}</CnpjText>}
+            {isPaid === true && <PaidText testID="paid">PAGO</PaidText>}
           </BetweenRow>
           <FlagText color={getFlagColor()}>{text}</FlagText>
           {children}

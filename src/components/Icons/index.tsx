@@ -5,6 +5,7 @@ import Svg, { Rect, Path, Circle } from 'react-native-svg';
 export interface IconProps {
   color?: string;
   size?: number;
+  testID?: string;
 }
 
 const iconStyle = {
@@ -14,9 +15,10 @@ const iconStyle = {
 export const MailIcon: React.FC<IconProps> = ({
   color = '#2d2d2d',
   size = 20,
+  testID = 'mailIcon',
 }) => {
   return (
-    <View style={iconStyle}>
+    <View style={iconStyle} testID={testID}>
       <Svg
         viewBox="0 0 24 24"
         fill="none"
@@ -36,9 +38,10 @@ export const MailIcon: React.FC<IconProps> = ({
 export const UserCheck: React.FC<IconProps> = ({
   color = '#009245',
   size = 16,
+  testID = 'userCheck',
 }) => {
   return (
-    <View style={iconStyle}>
+    <View style={iconStyle} testID={testID}>
       <Svg
         viewBox="0 0 24 24"
         fill="none"
@@ -259,9 +262,10 @@ export const BarcodeIcon: React.FC<IconProps> = ({
 export const LockIcon: React.FC<IconProps> = ({
   color = '#e50914',
   size = 26,
+  testID = 'lockIcon',
 }) => {
   return (
-    <View>
+    <View testID={testID}>
       <Svg
         fill="none"
         stroke="currentColor"
