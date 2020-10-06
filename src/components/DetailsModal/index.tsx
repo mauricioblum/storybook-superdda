@@ -92,7 +92,9 @@ const renderModal = (
 
         {isAccount ? (
           <ModalInfoBlock>
-            <ModalText modalType={modalType}>{clientName}</ModalText>
+            {clientName && (
+              <ModalText modalType={modalType}>{clientName}</ModalText>
+            )}
             <ModalTextBold>
               {formatStringDate(month, 'short').toUpperCase()}
             </ModalTextBold>
@@ -115,32 +117,38 @@ const renderModal = (
               <ModalTextBold>{formatMonthDate(dueDate)}</ModalTextBold>
             </ModalInfoRow>
 
-            <ModalInfoRow>
-              <ModalText>Emissão e Envio: </ModalText>
-              <ModalText>{formatMonthDate(emissionDate)}</ModalText>
-            </ModalInfoRow>
+            {emissionDate && (
+              <ModalInfoRow>
+                <ModalText>Emissão e Envio: </ModalText>
+                <ModalText>{formatMonthDate(emissionDate)}</ModalText>
+              </ModalInfoRow>
+            )}
           </ModalInfoBlock>
         ) : (
           <>
-            <ModalInfoBlock>
-              <ModalInfoRow>
-                <ModalText modalType={modalType}>{clientName}</ModalText>
-              </ModalInfoRow>
-            </ModalInfoBlock>
-            <ModalInfoBlock>
-              <ModalInfoRow>
-                <ModalTextBold>Endereço</ModalTextBold>
-              </ModalInfoRow>
-              <ModalInfoRow>
-                <ModalText style={{ maxWidth: '250px' }}>
-                  {clientAddress}
-                </ModalText>
-              </ModalInfoRow>
-            </ModalInfoBlock>
+            {clientName && (
+              <ModalInfoBlock>
+                <ModalInfoRow>
+                  <ModalText modalType={modalType}>{clientName}</ModalText>
+                </ModalInfoRow>
+              </ModalInfoBlock>
+            )}
+            {clientAddress && (
+              <ModalInfoBlock>
+                <ModalInfoRow>
+                  <ModalTextBold>Endereço</ModalTextBold>
+                </ModalInfoRow>
+                <ModalInfoRow>
+                  <ModalText style={{ maxWidth: '250px' }}>
+                    {clientAddress}
+                  </ModalText>
+                </ModalInfoRow>
+              </ModalInfoBlock>
+            )}
           </>
         )}
 
-        {isAccount && (
+        {isAccount && minimumPaymentValue && totalLimit && totalWithdrawLimit && (
           <ModalInfoBlock>
             <ModalInfoRow>
               <ModalText>Pagamento mínimo: </ModalText>
@@ -185,22 +193,26 @@ const renderModal = (
           </ModalInfoBlock>
         )}
 
-        <ModalInfoBlock>
-          <ModalTextBold>Juros rotativo:</ModalTextBold>
-          <ModalText>
-            {interestRate}% am CET: {interestRateCET}% aa
-          </ModalText>
-        </ModalInfoBlock>
+        {interestRate && interestRateCET && (
+          <ModalInfoBlock>
+            <ModalTextBold>Juros rotativo:</ModalTextBold>
+            <ModalText>
+              {interestRate}% am CET: {interestRateCET}% aa
+            </ModalText>
+          </ModalInfoBlock>
+        )}
 
-        <ModalInfoBlockLast>
-          <ModalTextBold>Juros de parcelamento:</ModalTextBold>
-          <ModalText>consulte o app na contratação</ModalText>
-          <ModalText>juros e mora em caso de atraso:</ModalText>
-          <ModalText>
-            {interestInstallmentRate}% am + {interestInstallmentFine}% multa
-            CET: {interestInstallmentRateCET}% aa
-          </ModalText>
-        </ModalInfoBlockLast>
+        {interestInstallmentRate && interestInstallmentFine && (
+          <ModalInfoBlockLast>
+            <ModalTextBold>Juros de parcelamento:</ModalTextBold>
+            <ModalText>consulte o app na contratação</ModalText>
+            <ModalText>juros e mora em caso de atraso:</ModalText>
+            <ModalText>
+              {interestInstallmentRate}% am + {interestInstallmentFine}% multa
+              CET: {interestInstallmentRateCET}% aa
+            </ModalText>
+          </ModalInfoBlockLast>
+        )}
       </ModalContent>
     </ModalWebContainer>
   ) : (

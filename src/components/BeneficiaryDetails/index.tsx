@@ -55,15 +55,15 @@ export interface BeneficiaryBillDetails {
   billDate: string;
   value: number;
   dueDate: Date;
-  emissionDate: Date;
-  minimumPaymentValue: number;
-  totalLimitValue: number;
-  totalWithdrawLimitValue: number;
-  interestRate: number;
-  interestRateCET: number;
-  interestInstallmentRate: number;
-  interestInstallmentRateCET: number;
-  interestInstallmentFine: number;
+  emissionDate?: Date;
+  minimumPaymentValue?: number;
+  totalLimitValue?: number;
+  totalWithdrawLimitValue?: number;
+  interestRate?: number;
+  interestRateCET?: number;
+  interestInstallmentRate?: number;
+  interestInstallmentRateCET?: number;
+  interestInstallmentFine?: number;
 }
 
 export interface BeneficiaryDetailsInfoProps {
