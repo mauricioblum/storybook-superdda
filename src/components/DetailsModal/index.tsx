@@ -87,8 +87,8 @@ const renderModal = (
       </ModalHeader>
       <ModalContent>
         <Title color={titleColor}>{companyName}</Title>
-        <ModalText>CNPJ {cnpj}</ModalText>
-        <ModalText>Cartão {cardNumber}</ModalText>
+        {cnpj && <ModalText>CNPJ {cnpj}</ModalText>}
+        {cardNumber && <ModalText>Cartão {cardNumber}</ModalText>}
 
         {isAccount ? (
           <ModalInfoBlock>

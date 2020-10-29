@@ -59,22 +59,34 @@ Default.args = {
     cardHolderName: 'Roberto de Oliveira Santos',
     cardHolderAddress: 'Avenida Sete de Setembro 32/1101 Icaraí - Niterói - RJ',
     paymentHistory,
-    billDetails: {
-      billDate: '2020-06',
-      dueDate: new Date('2020-06-19T23:00:00.000Z'),
-      emissionDate: new Date('2020-06-06T23:00:00.000Z'),
+    beneficiaryDetails: {
       interestInstallmentFine: 22,
       interestInstallmentRate: 12,
       interestInstallmentRateCET: 15,
       interestRate: 14,
       interestRateCET: 385.17,
-      minimumPaymentValue: 400,
-      totalLimitValue: 1200,
-      totalWithdrawLimitValue: 600,
-      value: 1230.89,
     },
   },
 };
 Default.argTypes = {
+  baseColor: { control: 'color' },
+};
+
+export const Simple = Template.bind({});
+Simple.args = {
+  historyReverse: true,
+  cardHolderOpenText: 'Acessar conta',
+  data: {
+    companyLogo:
+      'https://cdn2.downdetector.com/static/uploads/logo/Nubank_logo.png',
+    companyName: 'Nu Pagamentos S.A.',
+    cnpj: '18.236.120/0001-58',
+    isFromIuPay: true,
+    isUserAdded: false,
+    cardHolderName: 'Roberto de Oliveira Santos',
+    beneficiaryDetails: {},
+  },
+};
+Simple.argTypes = {
   baseColor: { control: 'color' },
 };

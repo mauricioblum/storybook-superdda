@@ -101,6 +101,7 @@ BeneficiaryCard.args = {
   },
   limitValue: 300,
   limitValueText: 'Valor Limite',
+  showLimitSection: true,
   logo:
     'https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png',
   imageWidth: 30,

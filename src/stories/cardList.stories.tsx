@@ -24,8 +24,8 @@ Default.args = {
     },
     {
       barColor: '#0d56f3',
-      dueDate: new Date('2020-07-28T23:00:00.000Z'),
-      isPaid: true,
+      dueDate: new Date(),
+      isPaid: false,
       logo:
         'https://logodownload.org/wp-content/uploads/2014/04/bmw-logo-2.png',
       value: 2550,

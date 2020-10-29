@@ -52,13 +52,6 @@ export interface BeneficiaryPaymentHistoryItem {
 }
 
 export interface BeneficiaryBillDetails {
-  billDate: string;
-  value: number;
-  dueDate: Date;
-  emissionDate?: Date;
-  minimumPaymentValue?: number;
-  totalLimitValue?: number;
-  totalWithdrawLimitValue?: number;
   interestRate?: number;
   interestRateCET?: number;
   interestInstallmentRate?: number;
@@ -78,7 +71,8 @@ export interface BeneficiaryDetailsInfoProps {
   paymentHistory?: BeneficiaryPaymentHistoryItem[];
   isFromIuPay?: boolean;
   isUserAdded?: boolean;
-  billDetails?: BeneficiaryBillDetails;
+  /** Beneficiary Extra details, must pass Empty object if not set */
+  beneficiaryDetails: BeneficiaryBillDetails;
 }
 
 export interface BeneficiaryDetailsProps {
@@ -86,8 +80,12 @@ export interface BeneficiaryDetailsProps {
   data: BeneficiaryDetailsInfoProps;
   /** Payment history table months reversed or not. */
   historyReverse?: boolean;
+  /** Payment history table months reversed or not. */
+  showBeneficiariesDetailsButton?: boolean;
   /** Base card color to be applied on elements */
   baseColor?: string;
+  /** Open Card Holder text */
+  cardHolderOpenText?: string;
   onClickBack?: () => void;
   onClickOptions?: () => void;
   onClickViewCard?: () => void;
@@ -100,7 +98,9 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
   onClickViewCard,
   baseColor = '#8e05c2',
   data,
+  cardHolderOpenText = 'Acessar cartão',
   historyReverse,
+  showBeneficiariesDetailsButton = true,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -138,28 +138,36 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
         </TitleWrapper>
 
         <BlockView>
-          <InfoBlock>
-            <ValueTitle>CNPJ: </ValueTitle>
-            <ValueDescription>{data.cnpj}</ValueDescription>
-          </InfoBlock>
-          <InfoBlock>
-            <ValueTitle>Cartão {data.cardNumber}</ValueTitle>
-          </InfoBlock>
+          {data.cnpj && (
+            <InfoBlock>
+              <ValueTitle>CNPJ: </ValueTitle>
+              <ValueDescription>{data.cnpj}</ValueDescription>
+            </InfoBlock>
+          )}
+          {data.cardNumber && (
+            <InfoBlock>
+              <ValueTitle>Cartão {data.cardNumber}</ValueTitle>
+            </InfoBlock>
+          )}
         </BlockView>
 
         <BlockView>
-          <InfoBlock>
-            <ValueTitle>Pagamento Automático: </ValueTitle>
-            <ValueActive baseColor={baseColor}>
-              {data.autoPayment ? 'Ativado' : 'Desativado'}
-            </ValueActive>
-          </InfoBlock>
-          <InfoBlock>
-            <ValueTitle>Limite de Autorização: </ValueTitle>
-            <ValueActive baseColor={baseColor}>
-              {data.authorizedLimit ? 'Ativado' : 'Desativado'}
-            </ValueActive>
-          </InfoBlock>
+          {(data.autoPayment || data.autoPayment === false) && (
+            <InfoBlock>
+              <ValueTitle>Pagamento Automático: </ValueTitle>
+              <ValueActive baseColor={baseColor}>
+                {data.autoPayment ? 'Ativado' : 'Desativado'}
+              </ValueActive>
+            </InfoBlock>
+          )}
+          {(data.authorizedLimit || data.authorizedLimit === false) && (
+            <InfoBlock>
+              <ValueTitle>Limite de Autorização: </ValueTitle>
+              <ValueActive baseColor={baseColor}>
+                {data.authorizedLimit ? 'Ativado' : 'Desativado'}
+              </ValueActive>
+            </InfoBlock>
+          )}
         </BlockView>
 
         <CardHolderContainer baseColor={baseColor}>
@@ -167,13 +175,13 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
             <CardHolderText>{data.cardHolderName}</CardHolderText>
             <CardHolderButton onPress={onClickViewCard}>
               <CardHolderButtonText baseColor={baseColor}>
-                Acessar cartão
+                {cardHolderOpenText}
               </CardHolderButtonText>
             </CardHolderButton>
           </CardHolderCard>
         </CardHolderContainer>
 
-        {data.billDetails && (
+        {showBeneficiariesDetailsButton && (
           <BlockView>
             <ViewBeneficiaryDetailsButton
               onPress={() => setModalOpen(!modalOpen)}
@@ -222,7 +230,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           </PaymentHistoryContainer>
         )}
       </Container>
-      {data.billDetails && (
+      {showBeneficiariesDetailsButton && (
         <DetailsModal
           isOpen={modalOpen}
           modalType="beneficiary"
@@ -234,20 +242,17 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           cardNumber={data.cardNumber}
           clientName={data.cardHolderName}
           clientAddress={data.cardHolderAddress}
-          dueDate={data.billDetails.dueDate}
-          emissionDate={data.billDetails.emissionDate}
-          month={data.billDetails.billDate}
-          minimumPaymentValue={data.billDetails.minimumPaymentValue}
-          value={data.billDetails.value}
-          totalLimit={data.billDetails.totalLimitValue}
-          totalWithdrawLimit={data.billDetails.totalWithdrawLimitValue}
-          interestRate={data.billDetails.interestRate}
-          interestRateCET={data.billDetails.interestRateCET}
-          interestInstallmentRate={data.billDetails.interestInstallmentRate}
-          interestInstallmentRateCET={
-            data.billDetails.interestInstallmentRateCET
+          interestRate={data.beneficiaryDetails.interestRate}
+          interestRateCET={data.beneficiaryDetails.interestRateCET}
+          interestInstallmentRate={
+            data.beneficiaryDetails.interestInstallmentRate
           }
-          interestInstallmentFine={data.billDetails.interestInstallmentFine}
+          interestInstallmentRateCET={
+            data.beneficiaryDetails.interestInstallmentRateCET
+          }
+          interestInstallmentFine={
+            data.beneficiaryDetails.interestInstallmentFine
+          }
         />
       )}
     </WrapperView>

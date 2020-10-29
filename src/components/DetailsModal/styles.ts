@@ -1,10 +1,11 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  flex: 1;
   justify-content: center;
   align-items: center;
   margin-top: 22px;
+  height: auto;
+  min-height: 150px;
 `;
 
 export const ModalHeader = styled.View`
@@ -60,6 +61,7 @@ export const ModalWebContainer = styled.View`
     top: 0;
     left: 0;
     width: auto;
+    min-height: 150px;
   `};
   ${(props: { mobile?: boolean; modalType?: string }) =>
     props.modalType === 'beneficiary' &&
