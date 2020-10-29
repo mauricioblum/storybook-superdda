@@ -100,6 +100,10 @@ export const PaidText = styled.Text`
   color: #8aa626;
 `;
 
+export const UnPaidText = styled(PaidText)`
+  color: #e30613;
+`;
+
 export const CardText = styled.Text`
   font-family: 'NunitoSans-Regular';
   font-size: 13px;

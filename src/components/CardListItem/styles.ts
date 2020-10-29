@@ -93,6 +93,10 @@ export const PaidText = styled.Text`
   color: #8aa626;
 `;
 
+export const UnPaidText = styled(PaidText)`
+  color: #e30613;
+`;
+
 export const LockedContainer = styled.View`
   display: flex;
   align-items: flex-end;

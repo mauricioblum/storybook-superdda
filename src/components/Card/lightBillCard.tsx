@@ -14,6 +14,7 @@ import {
   BetweenRow,
   CnpjText,
   PaidText,
+  UnPaidText,
   CardValue,
   CurrencyText,
   ValueText,
@@ -74,7 +75,11 @@ export const LightBillCard: React.FC<CardProps> = ({
         <CardBody>
           <BetweenRow>
             {cnpj && <CnpjText testID="cnpj">CNPJ: {cnpj}</CnpjText>}
-            {isPaid === true && <PaidText testID="paid">PAGO</PaidText>}
+            {isPaid === true ? (
+              <PaidText testID="paid">PAGO</PaidText>
+            ) : (
+              <UnPaidText>NÃO PAGO</UnPaidText>
+            )}
           </BetweenRow>
           <FlagText color={getFlagColor()}>{text}</FlagText>
           {children}

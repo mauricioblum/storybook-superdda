@@ -86,6 +86,7 @@ export interface BeneficiaryDetailsProps {
   baseColor?: string;
   /** Open Card Holder text */
   cardHolderOpenText?: string;
+  showCardHolderNameOnModal?: boolean;
   onClickBack?: () => void;
   onClickOptions?: () => void;
   onClickViewCard?: () => void;
@@ -96,6 +97,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
   onClickBack,
   onClickOptions,
   onClickViewCard,
+  showCardHolderNameOnModal = true,
   baseColor = '#8e05c2',
   data,
   cardHolderOpenText = 'Acessar cartão',
@@ -240,7 +242,9 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           companyName={data.companyName}
           cnpj={data.cnpj}
           cardNumber={data.cardNumber}
-          clientName={data.cardHolderName}
+          clientName={
+            showCardHolderNameOnModal ? data.cardHolderName : undefined
+          }
           clientAddress={data.cardHolderAddress}
           interestRate={data.beneficiaryDetails.interestRate}
           interestRateCET={data.beneficiaryDetails.interestRateCET}

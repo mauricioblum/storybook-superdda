@@ -19,6 +19,7 @@ export interface FilterSearchProps {
   disabled?: boolean;
   orderText?: string;
   searchValue: string;
+  searchBarEnabled?: string;
   onClickAsc?: () => void;
   onClickDesc?: () => void;
   onSearchIconClick?: () => void;
@@ -30,6 +31,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
   // disabled = false,
   orderText = 'Ordernar por',
   searchValue,
+  searchBarEnabled = true,
   onClickAsc,
   onClickDesc,
   onSearch,
@@ -71,32 +73,34 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
       <LetterButton onPress={onClickDesc}>
         <LettersText>Z-A |</LettersText>
       </LetterButton>
-      <SearchBar>
-        <SearchButton onPress={() => handleSearchIconClick()}>
-          <SearchIcon />
-        </SearchButton>
-        {searchOpen && (
-          <TextInput
-            ref={textInputRef}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyLabel="Pesquisar"
-            style={{
-              height: 20,
-              borderColor: '#727272',
-              borderWidth: 1,
-              borderRadius: 5,
-              padding: 5,
-              marginLeft: 5,
-              minWidth: 60,
-            }}
-            onEndEditing={() => onSearch(searchValue)}
-            onChangeText={(text) => handleValueChange(text)}
-            onKeyPress={(e) => handleKeyPress(e)}
-            value={searchValue}
-          />
-        )}
-      </SearchBar>
+      {searchBarEnabled && (
+        <SearchBar>
+          <SearchButton onPress={() => handleSearchIconClick()}>
+            <SearchIcon />
+          </SearchButton>
+          {searchOpen && (
+            <TextInput
+              ref={textInputRef}
+              autoCorrect={false}
+              autoCapitalize="none"
+              returnKeyLabel="Pesquisar"
+              style={{
+                height: 20,
+                borderColor: '#727272',
+                borderWidth: 1,
+                borderRadius: 5,
+                padding: 5,
+                marginLeft: 5,
+                minWidth: 60,
+              }}
+              onEndEditing={() => onSearch(searchValue)}
+              onChangeText={(text) => handleValueChange(text)}
+              onKeyPress={(e) => handleKeyPress(e)}
+              value={searchValue}
+            />
+          )}
+        </SearchBar>
+      )}
     </Container>
   );
 };

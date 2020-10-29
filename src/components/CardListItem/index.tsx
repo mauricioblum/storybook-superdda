@@ -17,6 +17,7 @@ import {
   DueDateText,
   ValueText,
   PaidText,
+  UnPaidText,
   LockedContainer,
   Shimmer,
 } from './styles';
@@ -141,7 +142,11 @@ export const CardListItem: React.FC<CardListItemProps> = ({
             ) : (
               <>
                 <DueDateText isDue={isDueToday}>{formattedDate}</DueDateText>
-                {isPaid === true && <PaidText>PAGO</PaidText>}
+                {isPaid === true ? (
+                  <PaidText>PAGO</PaidText>
+                ) : (
+                  <UnPaidText>NÃO PAGO</UnPaidText>
+                )}
                 <NumberFormat
                   value={value}
                   displayType="text"

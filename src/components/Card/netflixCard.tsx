@@ -18,6 +18,7 @@ import {
   ValueText,
   BetweenRow,
   PaidText,
+  UnPaidText,
 } from './styles';
 
 import { CardProps } from '.';
@@ -62,7 +63,11 @@ export const NetflixCard: React.FC<CardProps> = ({
         <CardBody>
           <BetweenRow>
             {cnpj && <CnpjText testID="cnpj">CNPJ: {cnpj}</CnpjText>}
-            {isPaid === true && <PaidText testID="paid">PAGO</PaidText>}
+            {isPaid === true ? (
+              <PaidText testID="paid">PAGO</PaidText>
+            ) : (
+              <UnPaidText>NÃO PAGO</UnPaidText>
+            )}
           </BetweenRow>
           <CardText>{text}</CardText>
           {children}

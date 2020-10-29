@@ -87,7 +87,11 @@ const renderModal = (
       </ModalHeader>
       <ModalContent>
         <Title color={titleColor}>{companyName}</Title>
-        {cnpj && <ModalText>CNPJ {cnpj}</ModalText>}
+        {cnpj && (
+          <ModalText>
+            CNPJ: <ModalTextBold>{cnpj}</ModalTextBold>
+          </ModalText>
+        )}
         {cardNumber && <ModalText>Cartão {cardNumber}</ModalText>}
 
         {isAccount ? (
@@ -224,7 +228,7 @@ export const DetailsModal: React.FC<DetailsModalProps> = (props) => {
   const { isOpen } = props;
 
   return Platform.OS !== 'web' ? (
-    <Modal transparent visible={isOpen}>
+    <Modal presentationStyle="overFullScreen" transparent visible={isOpen}>
       <Container>{renderModal(props, true)}</Container>
     </Modal>
   ) : (

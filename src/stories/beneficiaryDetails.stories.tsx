@@ -76,6 +76,7 @@ export const Simple = Template.bind({});
 Simple.args = {
   historyReverse: true,
   cardHolderOpenText: 'Acessar conta',
+  showCardHolderNameOnModal: false,
   data: {
     companyLogo:
       'https://cdn2.downdetector.com/static/uploads/logo/Nubank_logo.png',

@@ -21,6 +21,7 @@ import {
   ValueText,
   BetweenRow,
   PaidText,
+  UnPaidText,
   Shimmer,
   LockedText,
 } from './styles';
@@ -103,7 +104,11 @@ export const DefaultCard: React.FC<CardProps> = ({
             <>
               <BetweenRow>
                 {cnpj && <CnpjText testID="cnpj">CNPJ: {cnpj}</CnpjText>}
-                {isPaid === true && <PaidText testID="paid">PAGO</PaidText>}
+                {isPaid === true ? (
+                  <PaidText testID="paid">PAGO</PaidText>
+                ) : (
+                  <UnPaidText>NÃO PAGO</UnPaidText>
+                )}
               </BetweenRow>
               <CardText style={{ color: textColor }}>{text}</CardText>
             </>
