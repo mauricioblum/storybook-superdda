@@ -224,11 +224,9 @@ export const DetailsModal: React.FC<DetailsModalProps> = (props) => {
   const { isOpen } = props;
 
   return Platform.OS !== 'web' ? (
-    <Container>
-      <Modal animationType="slide" visible={isOpen}>
-        {renderModal(props, true)}
-      </Modal>
-    </Container>
+    <Modal transparent visible={isOpen}>
+      <Container>{renderModal(props, true)}</Container>
+    </Modal>
   ) : (
     renderModal(props)
   );

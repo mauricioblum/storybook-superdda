@@ -1,11 +1,10 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
+  flex: 1;
   justify-content: center;
   align-items: center;
-  margin-top: 22px;
-  height: auto;
-  min-height: 150px;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 export const ModalHeader = styled.View`
@@ -60,13 +59,9 @@ export const ModalWebContainer = styled.View`
     position: relative;
     top: 0;
     left: 0;
-    width: auto;
+    width: 85%;
+    background-color: #fff;
     min-height: 150px;
-  `};
-  ${(props: { mobile?: boolean; modalType?: string }) =>
-    props.modalType === 'beneficiary' &&
-    `
-    min-height: 430px;
   `};
 `;
 
