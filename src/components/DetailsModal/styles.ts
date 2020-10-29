@@ -61,7 +61,7 @@ export const ModalWebContainer = styled.View`
     left: 0;
     width: 85%;
     background-color: #fff;
-    min-height: 150px;
+    min-height: 180px;
   `};
 `;
 
