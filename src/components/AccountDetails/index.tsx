@@ -3,7 +3,7 @@ import { lighten } from 'polished';
 import { Dimensions } from 'react-native';
 import NumberFormat from 'react-number-format';
 import { LineChart } from 'react-native-chart-kit';
-import { CopyIcon, PaymentHistoryIcon } from '../Icons';
+import { CopyIcon, PaymentHistoryIcon, MailIcon } from '../Icons';
 import {
   WrapperView,
   Container,
@@ -86,6 +86,7 @@ export interface AccountDetailsInfoProps {
   paymentHistory?: PaymentHistoryItem[];
   isFromIuPay?: boolean;
   isUserAdded?: boolean;
+  isFromMail?: boolean;
   isAutomaticDebit?: boolean;
   automaticDebitBankName?: string;
   billDetails: BillDetails;
@@ -227,6 +228,7 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({
           <Title baseColor={baseColor}>{data.companyName}</Title>
           <IconsWrapper>
             {data.isFromIuPay && <IuPayIcon />}
+            {data.isFromMail && <MailIcon />}
             {data.isUserAdded ? <UserCheck /> : <UserX color="#c1272d" />}
           </IconsWrapper>
         </TitleWrapper>

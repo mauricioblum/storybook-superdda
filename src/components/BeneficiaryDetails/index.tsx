@@ -41,6 +41,7 @@ import {
   UserCheck,
   UserX,
   PaymentHistoryIcon,
+  MailIcon,
 } from '../Icons';
 import { DetailsModal } from '../DetailsModal';
 import { formatStringDate } from '../utils/formatDate';
@@ -70,6 +71,7 @@ export interface BeneficiaryDetailsInfoProps {
   cardHolderAddress?: string;
   paymentHistory?: BeneficiaryPaymentHistoryItem[];
   isFromIuPay?: boolean;
+  isFromMail?: boolean;
   isUserAdded?: boolean;
   /** Beneficiary Extra details, must pass Empty object if not set */
   beneficiaryDetails: BeneficiaryBillDetails;
@@ -135,6 +137,7 @@ export const BeneficiaryDetails: React.FC<BeneficiaryDetailsProps> = ({
           <Title baseColor={baseColor}>{data.companyName}</Title>
           <IconsWrapper>
             {data.isFromIuPay && <IuPayIcon />}
+            {data.isFromMail && <MailIcon />}
             {data.isUserAdded ? <UserCheck /> : <UserX color="#c1272d" />}
           </IconsWrapper>
         </TitleWrapper>

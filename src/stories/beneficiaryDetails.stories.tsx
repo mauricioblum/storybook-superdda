@@ -83,6 +83,7 @@ Simple.args = {
     companyName: 'Nu Pagamentos S.A.',
     cnpj: '18.236.120/0001-58',
     isFromIuPay: true,
+    isFromMail: true,
     isUserAdded: false,
     cardHolderName: 'Roberto de Oliveira Santos',
     beneficiaryDetails: {},
