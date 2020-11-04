@@ -15,7 +15,7 @@ Default.args = {
   cards: [
     {
       barColor: '#00529a',
-      dueDate: new Date('2020-08-15T15:01:56.328Z'),
+      dueDate: '2020-08-15',
       isPaid: false,
       logo:
         'https://upload.wikimedia.org/wikipedia/pt/thumb/9/93/Embasa.png/1200px-Embasa.png',

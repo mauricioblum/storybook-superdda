@@ -24,7 +24,7 @@ import {
 import { LockIcon } from '../Icons';
 
 export interface CardListItemProps {
-  dueDate?: Date;
+  dueDate?: Date | string;
   isDueTodayText?: string;
   value?: number;
   logo?: string;
@@ -51,10 +51,6 @@ export const CardListItem: React.FC<CardListItemProps> = ({
   const [logoWidth, setLogoWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
 
-  const isDueToday = useMemo(() => {
-    return dueDate && isToday(dueDate);
-  }, [dueDate]);
-
   const renderCardTitle = useCallback(
     (
       cardTitleColor: string | undefined,
@@ -75,13 +71,21 @@ export const CardListItem: React.FC<CardListItemProps> = ({
     [],
   );
 
+  const realDate = useMemo(() => {
+    return typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
+  }, [dueDate]);
+
+  const isDueToday = useMemo(() => {
+    return realDate && isToday(realDate);
+  }, [realDate]);
+
   const formattedDate = useMemo(() => {
-    if (dueDate) {
-      const weekDay = format(dueDate, "EEEE',' ", {
+    if (realDate) {
+      const weekDay = format(realDate, "EEEE',' ", {
         locale: ptBR,
       });
 
-      const dayOfMonth = format(dueDate, 'dd MMM', {
+      const dayOfMonth = format(realDate, 'dd MMM', {
         locale: ptBR,
       });
 
@@ -96,7 +100,7 @@ export const CardListItem: React.FC<CardListItemProps> = ({
       );
     }
     return null;
-  }, [dueDate, isDueToday, isDueTodayText]);
+  }, [realDate, isDueToday, isDueTodayText]);
 
   useEffect(() => {
     if (logo) {

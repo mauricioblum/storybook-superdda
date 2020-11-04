@@ -6,7 +6,17 @@ interface CustomProps {
 }
 
 export const Container = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.9,
+  activeOpacity: 0.7,
+  style: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 })`
   border-radius: 8px;
   background-color: #ffffff;

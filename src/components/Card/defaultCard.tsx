@@ -54,7 +54,11 @@ export const DefaultCard: React.FC<CardProps> = ({
   };
 
   const formattedDate = useMemo(() => {
-    return isDue ? `${isDueText}, ${formatDate(dueDate)}` : formatDate(dueDate);
+    const realDate = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
+
+    return isDue
+      ? `${isDueText}, ${formatDate(realDate)}`
+      : formatDate(realDate);
   }, [dueDate, isDue, isDueText]);
 
   return (

@@ -11,7 +11,7 @@ export interface CardProps {
   type?: CardType;
   logo?: string | null;
   value?: number;
-  dueDate?: Date;
+  dueDate?: Date | string;
   cnpj?: string;
   cardTitle?: string;
   text?: string | JSX.Element;
