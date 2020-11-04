@@ -20,40 +20,54 @@ import {
   TypeValue,
   ConfirmPaymentButton,
   ConfirmPaymentButtonText,
+  ViewReceiptButton,
+  ViewReceiptButtonText,
 } from './styles';
-import { formatDateWithBars } from '../utils/formatDate';
+import {
+  formatDateWithBars,
+  formatFullDateToMonthDate,
+} from '../utils/formatDate';
 
 export interface PaymentDetailsProps {
   /** Name of the beneficiary to be displayed */
-  beneficiaryName: string;
+  beneficiaryName?: string;
   /** Name of the bank to be displayed */
-  bankName: string;
+  bankName?: string;
   /** Name of the payer to be displayed */
-  payerName: string;
+  payerName?: string;
   /** Barcode string */
-  barCode: string;
+  barCode?: string;
   /** Display value of payment */
-  value: number;
+  value?: number;
   /** Current balance (will be subtracted by value) */
-  currentBalance: number;
+  currentBalance?: number;
   /** Type to be payed with */
-  payWithType: string;
+  payWithType?: string;
   /** Due date of the payment */
-  dueDate: Date;
+  dueDate: Date | string;
   /** Scheduled due date of the payment */
-  scheduledDueDate: Date;
+  scheduledDueDate?: Date | string;
   /** Base color of the screen */
   baseColor?: string;
   /** Type of screen (default: Payment) */
   type?: 'Payment' | 'Schedule';
+  /** If bill is already paid */
+  isPaid?: boolean;
+  /** Confirm Scheduled Text in Button */
+  confirmScheduleButtonText?: string;
+  /** Confirm Payment Text in Button */
+  confirmPaymentButtonText?: string;
 
   onClickBack?(): void;
+
+  onClickViewReceipt?(): void;
 
   onConfirmPaymentSchedule?(type: string): void;
 }
 
 export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   onClickBack,
+  onClickViewReceipt,
   onConfirmPaymentSchedule,
   beneficiaryName,
   bankName,
@@ -62,10 +76,13 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   value,
   currentBalance,
   payWithType,
+  isPaid = false,
   dueDate,
   scheduledDueDate,
   baseColor,
   type = 'Payment',
+  confirmScheduleButtonText = 'Confirmar Agendamento',
+  confirmPaymentButtonText = 'Confirmar Pagamento',
 }) => {
   const handlePaymentSchedule = useCallback(
     (paymentType: string) => {
@@ -74,13 +91,80 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
     [onConfirmPaymentSchedule],
   );
 
+  const realDate = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
   const formattedDueDate = useMemo(() => {
-    return formatDateWithBars(dueDate);
-  }, [dueDate]);
+    return formatDateWithBars(realDate);
+  }, [realDate]);
 
   const formattedScheduledDueDate = useMemo(() => {
-    return formatDateWithBars(scheduledDueDate);
+    if (!scheduledDueDate) {
+      return new Date();
+    }
+    const realScheduledDate =
+      typeof scheduledDueDate === 'string'
+        ? new Date(scheduledDueDate)
+        : scheduledDueDate;
+    return formatDateWithBars(realScheduledDate);
   }, [scheduledDueDate]);
+
+  if (isPaid) {
+    return (
+      <Container>
+        <Header>
+          <BackButton onPress={onClickBack}>
+            <ChevronLeft />
+          </BackButton>
+          <HeaderTitle>PAGAMENTO</HeaderTitle>
+        </Header>
+        <Content>
+          {beneficiaryName && (
+            <BlockView>
+              <BlockLabel>Beneficiário</BlockLabel>
+              <BlockValue>{beneficiaryName}</BlockValue>
+            </BlockView>
+          )}
+          {realDate && (
+            <>
+              <BlockView>
+                <BlockValue>{formatFullDateToMonthDate(realDate)}</BlockValue>
+              </BlockView>
+              <BlockView>
+                <BlockLabel>Vencimento</BlockLabel>
+                <BlockValue>{formatDateWithBars(realDate)}</BlockValue>
+              </BlockView>
+            </>
+          )}
+          <BlockView>
+            <BlockLabel>Valor</BlockLabel>
+            <NumberFormat
+              value={value}
+              displayType="text"
+              thousandSeparator="."
+              decimalSeparator=","
+              renderText={(number) => <BlockValue>R$ {number}</BlockValue>}
+              decimalScale={2}
+              fixedDecimalScale
+            />
+          </BlockView>
+          <ValueWrapper baseColor={baseColor}>
+            <Value style={{ textAlign: 'center' }} baseColor={baseColor}>
+              Sua conta está paga
+            </Value>
+          </ValueWrapper>
+          <BlockView>
+            <ViewReceiptButton
+              baseColor={baseColor}
+              onPress={onClickViewReceipt}
+            >
+              <ViewReceiptButtonText baseColor={baseColor}>
+                Ver comprovante
+              </ViewReceiptButtonText>
+            </ViewReceiptButton>
+          </BlockView>
+        </Content>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -91,25 +175,33 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         <HeaderTitle>PAGAMENTO</HeaderTitle>
       </Header>
       <Content>
-        <BlockView>
-          <BlockLabel>Beneficiário</BlockLabel>
-          <BlockValue>{beneficiaryName}</BlockValue>
-        </BlockView>
+        {beneficiaryName && (
+          <BlockView>
+            <BlockLabel>Beneficiário</BlockLabel>
+            <BlockValue>{beneficiaryName}</BlockValue>
+          </BlockView>
+        )}
 
-        <BlockView>
-          <BlockLabel>Banco</BlockLabel>
-          <BlockValue>{bankName}</BlockValue>
-        </BlockView>
+        {bankName && (
+          <BlockView>
+            <BlockLabel>Banco</BlockLabel>
+            <BlockValue>{bankName}</BlockValue>
+          </BlockView>
+        )}
 
-        <BlockView>
-          <BlockLabel>Pagador</BlockLabel>
-          <BlockValue>{payerName}</BlockValue>
-        </BlockView>
+        {payerName && (
+          <BlockView>
+            <BlockLabel>Pagador</BlockLabel>
+            <BlockValue>{payerName}</BlockValue>
+          </BlockView>
+        )}
 
-        <BlockView>
-          <BlockLabel>Código de Barras</BlockLabel>
-          <BarcodeValue>{barCode}</BarcodeValue>
-        </BlockView>
+        {barCode && (
+          <BlockView>
+            <BlockLabel>Código de Barras</BlockLabel>
+            <BarcodeValue>{barCode}</BarcodeValue>
+          </BlockView>
+        )}
 
         <ValueWrapper baseColor={baseColor}>
           <ValueLabel baseColor={baseColor}>Valor</ValueLabel>
@@ -127,47 +219,68 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         </ValueWrapper>
 
         <BlockView>
-          <RowBetween>
-            <Label>Pagar com</Label>
-            <TypeValue baseColor={baseColor}>{payWithType}</TypeValue>
-          </RowBetween>
+          {payWithType && (
+            <RowBetween>
+              <Label>Pagar com</Label>
+              <TypeValue baseColor={baseColor}>{payWithType}</TypeValue>
+            </RowBetween>
+          )}
 
-          <RowBetween>
-            <Label>Saldo disponível após pagamento</Label>
-            <NumberFormat
-              value={currentBalance - value}
-              displayType="text"
-              thousandSeparator="."
-              decimalSeparator=","
-              renderText={(number) => <DefaultValue>R$ {number}</DefaultValue>}
-              decimalScale={2}
-              fixedDecimalScale
-            />
-          </RowBetween>
+          {currentBalance && value && (
+            <RowBetween>
+              <Label>Saldo disponível após pagamento</Label>
+              <NumberFormat
+                value={currentBalance - value}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                renderText={(number) => (
+                  <DefaultValue>R$ {number}</DefaultValue>
+                )}
+                decimalScale={2}
+                fixedDecimalScale
+              />
+            </RowBetween>
+          )}
 
           <RowBetween>
             <Label>Vencimento</Label>
             <DefaultValue>{formattedDueDate}</DefaultValue>
           </RowBetween>
 
-          <RowBetween>
-            <Label>Agendado para</Label>
-            <TypeValue baseColor={baseColor}>
-              {formattedScheduledDueDate}
-            </TypeValue>
-          </RowBetween>
+          {type === 'Schedule' && (
+            <RowBetween>
+              <Label>Agendado para</Label>
+              <TypeValue baseColor={baseColor}>
+                {formattedScheduledDueDate}
+              </TypeValue>
+            </RowBetween>
+          )}
         </BlockView>
 
-        <BlockView>
-          <ConfirmPaymentButton
-            baseColor={baseColor}
-            onPress={() => handlePaymentSchedule(type)}
-          >
-            <ConfirmPaymentButtonText>
-              Confirmar {type === 'Schedule' ? 'Agendamento' : 'Pagamento'}
-            </ConfirmPaymentButtonText>
-          </ConfirmPaymentButton>
-        </BlockView>
+        {type === 'Schedule' ? (
+          <BlockView>
+            <ConfirmPaymentButton
+              baseColor={baseColor}
+              onPress={() => handlePaymentSchedule(type)}
+            >
+              <ConfirmPaymentButtonText>
+                {confirmScheduleButtonText}
+              </ConfirmPaymentButtonText>
+            </ConfirmPaymentButton>
+          </BlockView>
+        ) : (
+          <BlockView>
+            <ConfirmPaymentButton
+              baseColor={baseColor}
+              onPress={() => handlePaymentSchedule(type)}
+            >
+              <ConfirmPaymentButtonText>
+                {confirmPaymentButtonText}
+              </ConfirmPaymentButtonText>
+            </ConfirmPaymentButton>
+          </BlockView>
+        )}
       </Content>
     </Container>
   );

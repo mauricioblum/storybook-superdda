@@ -67,6 +67,7 @@ export const ValueWrapper = styled.View`
   display: flex;
   justify-content: center;
   margin-bottom: 22px;
+  margin-top: 22px;
 `;
 
 export const Value = styled.Text`
@@ -112,7 +113,7 @@ export const ConfirmPaymentButton = styled.TouchableOpacity.attrs({
   border-radius: 8px;
   background-color: ${(props: { baseColor?: string }) =>
     props.baseColor || '#f78c49'};
-  margin-top: 100px;
+  margin-top: 40px;
   margin-bottom: 20px;
   align-items: center;
   justify-content: center;
@@ -123,4 +124,26 @@ export const ConfirmPaymentButtonText = styled.Text`
   font-family: 'NunitoSans-Bold';
   font-size: 16px;
   color: #ffffff;
+`;
+
+export const ViewReceiptButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.9,
+})`
+  border-radius: 8px;
+  background-color: #fff;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 15px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: ${(props: { baseColor?: string }) =>
+    props.baseColor || '#f78c49'};
+`;
+
+export const ViewReceiptButtonText = styled.Text`
+  font-family: 'NunitoSans-Bold';
+  font-size: 16px;
+  color: ${(props: { baseColor?: string }) => props.baseColor || '#f78c49'};
 `;

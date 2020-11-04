@@ -34,3 +34,38 @@ Default.argTypes = {
   scheduledDueDate: { control: 'date' },
   baseColor: { control: 'color' },
 };
+
+export const WithButton = Template.bind({});
+WithButton.args = {
+  beneficiaryName: 'COMPANHIA DE ELETRICIDADE DO RIO DE JANEIRO',
+  bankName: 'ITAÚ',
+  payerName: 'ROBERTO DE OLIVEIRA SANTOS',
+  barCode: '34191.09065 44830. 1285 40141.906 8 00001.83120.59475',
+  value: 223.24,
+  dueDate: '2020-11-15',
+  baseColor: '#890090',
+  type: 'Payment',
+  confirmPaymentButtonText: 'Pagar no meu banco',
+};
+
+WithButton.argTypes = {
+  baseColor: { control: 'color' },
+};
+
+export const WithButtonPaid = Template.bind({});
+WithButtonPaid.args = {
+  beneficiaryName: 'COMPANHIA DE ELETRICIDADE DO RIO DE JANEIRO',
+  bankName: 'ITAÚ',
+  payerName: 'ROBERTO DE OLIVEIRA SANTOS',
+  barCode: '34191.09065 44830. 1285 40141.906 8 00001.83120.59475',
+  value: 223.24,
+  dueDate: '2020-11-15',
+  baseColor: '#890090',
+  type: 'Payment',
+  confirmPaymentButtonText: 'Pagar no meu banco',
+  isPaid: true,
+};
+
+WithButtonPaid.argTypes = {
+  baseColor: { control: 'color' },
+};
