@@ -36,7 +36,7 @@ export const CardList: React.FC<CardListProps> = ({
   const totalPaymentValue = useMemo(() => {
     if (totalDueOnly) {
       const cardsDueOnly = cards.filter(
-        (card) => card.dueDate && isToday(card.dueDate),
+        (card) => card.dueDate && isToday(new Date(card.dueDate)),
       );
       return cardsDueOnly.reduce(
         (acc, { value }) => (value ? acc + value : acc),
