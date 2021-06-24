@@ -61,6 +61,7 @@ export const CardTitle = styled.Text`
   font-size: 14px;
   color: #727272;
   margin-left: 11px;
+  max-width: 220px;
 `;
 
 export const Logo = styled.Image``;

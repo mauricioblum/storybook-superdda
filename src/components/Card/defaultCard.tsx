@@ -85,7 +85,7 @@ export const DefaultCard: React.FC<CardProps> = ({
                 Boleto protegido por senha
               </LockedText>
             ) : (
-              <CardTitle>{cardTitle}</CardTitle>
+              <CardTitle numberOfLines={1}>{cardTitle}</CardTitle>
             )}
           </CardTitleContainer>
           {isLocked ? (

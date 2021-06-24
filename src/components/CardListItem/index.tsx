@@ -59,7 +59,7 @@ export const CardListItem: React.FC<CardListItemProps> = ({
     ) => {
       if (isLocked) {
         return (
-          <CardTitle color="#e50914" style={{ marginLeft: -15 }}>
+          <CardTitle numberOfLines={1} color="#e50914" style={{ marginLeft: -15 }}>
             Boleto protegido por senha
           </CardTitle>
         );
