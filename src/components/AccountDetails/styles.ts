@@ -22,7 +22,7 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 1px 0px 1px;
+  padding: 35px 1px 0px 1px;
 `;
 
 export const BackButton = styled.TouchableOpacity``;

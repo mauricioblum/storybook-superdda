@@ -112,6 +112,7 @@ export const CardText = styled.Text`
   text-align: left;
   color: #727272;
   min-height: 18px;
+  max-width: 220px;
 `;
 
 export const MailIcon = styled.Image`

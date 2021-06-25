@@ -13,7 +13,7 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 15px 0px 0px 0px;
+  padding: 35px 0px 0px 0px;
 `;
 
 export const BackButton = styled.TouchableOpacity`

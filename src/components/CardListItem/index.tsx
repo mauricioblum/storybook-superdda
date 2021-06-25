@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { Image } from 'react-native';
 import NumberFormat from 'react-number-format';
 import { format, isToday } from 'date-fns';
@@ -50,6 +50,7 @@ export const CardListItem: React.FC<CardListItemProps> = ({
 }) => {
   const [logoWidth, setLogoWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
+  const logoRef = useRef<Image>(null);
 
   const renderCardTitle = useCallback(
     (
@@ -59,7 +60,11 @@ export const CardListItem: React.FC<CardListItemProps> = ({
     ) => {
       if (isLocked) {
         return (
-          <CardTitle numberOfLines={1} color="#e50914" style={{ marginLeft: -15 }}>
+          <CardTitle
+            numberOfLines={1}
+            color="#e50914"
+            style={{ marginLeft: -15 }}
+          >
             Boleto protegido por senha
           </CardTitle>
         );
@@ -102,18 +107,34 @@ export const CardListItem: React.FC<CardListItemProps> = ({
     return null;
   }, [realDate, isDueToday, isDueTodayText]);
 
-  useEffect(() => {
-    if (logo) {
+  const getImageSize = useCallback(async (logo): Promise<{
+    width: number;
+    height: number;
+  }> => {
+    return new Promise((resolve, reject) => {
       Image.getSize(
         logo,
         (width, height) => {
-          setLogoWidth(width);
-          setLogoHeight(height);
+          resolve({ width, height });
         },
-        () => null,
+        (error) => reject({ error }),
       );
+    });
+  }, []);
+
+  useEffect(() => {
+    async function getLogoImageDimensions() {
+      if (logo && logoRef.current) {
+        const dimensions = await getImageSize(logo);
+        if (dimensions.width) {
+          setLogoWidth(dimensions.width);
+          setLogoHeight(dimensions.height);
+        }
+      }
     }
-  }, [logo]);
+
+    getLogoImageDimensions();
+  }, [logo, getImageSize]);
 
   return (
     <Container onPress={onCardClick}>
@@ -126,6 +147,7 @@ export const CardListItem: React.FC<CardListItemProps> = ({
                 <LockIcon size={32} />
               ) : (
                 <Logo
+                  ref={logoRef}
                   style={{ width: logoWidth, height: logoHeight }}
                   source={{ uri: logo }}
                   resizeMode="contain"
