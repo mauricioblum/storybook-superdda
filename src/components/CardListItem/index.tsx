@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Image } from 'react-native';
 import NumberFormat from 'react-number-format';
 import { format, isToday } from 'date-fns';
@@ -50,7 +50,6 @@ export const CardListItem: React.FC<CardListItemProps> = ({
 }) => {
   const [logoWidth, setLogoWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
-  const logoRef = useRef<Image>(null);
 
   const renderCardTitle = useCallback(
     (
@@ -123,10 +122,11 @@ export const CardListItem: React.FC<CardListItemProps> = ({
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
     async function getLogoImageDimensions() {
-      if (logo && logoRef.current) {
+      if (logo) {
         const dimensions = await getImageSize(logo);
-        if (dimensions.width) {
+        if (dimensions.width && isMounted) {
           setLogoWidth(dimensions.width);
           setLogoHeight(dimensions.height);
         }
@@ -134,6 +134,10 @@ export const CardListItem: React.FC<CardListItemProps> = ({
     }
 
     getLogoImageDimensions();
+
+    return () => {
+      isMounted = false;
+    };
   }, [logo, getImageSize]);
 
   return (
@@ -147,7 +151,6 @@ export const CardListItem: React.FC<CardListItemProps> = ({
                 <LockIcon size={32} />
               ) : (
                 <Logo
-                  ref={logoRef}
                   style={{ width: logoWidth, height: logoHeight }}
                   source={{ uri: logo }}
                   resizeMode="contain"

@@ -71,7 +71,7 @@ export const CardTitle = styled.Text<{ color?: string }>`
   font-size: 12px;
   color: ${(props) => props.color || '#707070'};
   margin-left: 5px;
-  max-width: 220px;
+  max-width: 120px;
 `;
 
 export const CardInfo = styled.View`
